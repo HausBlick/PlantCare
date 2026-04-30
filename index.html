@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>PlantCare — Pflegeguides</title>
+<meta name="description" content="Übersicht aller Pflegeguides — eine kleine Bibliothek für deine Pflanzen.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --primary:        #ff385c;
+    --ink:            #222222;
+    --body:           #3f3f3f;
+    --muted:          #6a6a6a;
+    --muted-soft:     #929292;
+    --hairline:       #dddddd;
+    --hairline-soft:  #ebebeb;
+    --canvas:         #ffffff;
+    --surface-soft:   #f7f7f7;
+    --surface-strong: #f2f2f2;
+
+    --shadow-card:
+      rgba(0,0,0,0.02) 0 0 0 1px,
+      rgba(0,0,0,0.04) 0 2px 6px 0,
+      rgba(0,0,0,0.10) 0 4px 8px 0;
+
+    --r-sm:   8px;
+    --r-md:  14px;
+    --r-lg:  20px;
+    --r-full: 9999px;
+
+    --space-xs:  4px;
+    --space-sm:  8px;
+    --space-md: 12px;
+    --space-base:16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-xxl:48px;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', 'Airbnb Cereal VF', Circular, -apple-system, system-ui, Roboto, "Helvetica Neue", sans-serif;
+    background: var(--canvas);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+  }
+
+  /* ── Top nav ────────────────────────────── */
+  .topnav {
+    height: 64px;
+    border-bottom: 1px solid var(--hairline);
+    background: rgba(255,255,255,0.92);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: saturate(180%) blur(10px);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
+  }
+  .topnav-inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.1px;
+  }
+  .brand-orb {
+    width: 28px; height: 28px;
+    border-radius: var(--r-full);
+    background: var(--primary);
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    font-size: 14px;
+    line-height: 1;
+  }
+  .nav-count {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    background: var(--surface-strong);
+    border-radius: var(--r-full);
+    padding: 4px 10px;
+  }
+
+  /* ── Intro ──────────────────────────────── */
+  .intro { margin: var(--space-lg) 0 var(--space-xl); }
+  .intro h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.18;
+    letter-spacing: -0.4px;
+    color: var(--ink);
+  }
+  .intro p {
+    margin-top: var(--space-md);
+    font-size: 16px;
+    color: var(--body);
+  }
+
+  /* ── Section primitives ─────────────────── */
+  .section { margin: var(--space-xl) 0; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-base);
+    margin-bottom: var(--space-base);
+  }
+  .section-title {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.44px;
+    color: var(--ink);
+  }
+  .section-meta {
+    font-size: 13px;
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+
+  /* ── Plant card grid ────────────────────── */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+
+  .plant-card {
+    display: block;
+    color: var(--ink);
+    transition: transform 0.2s ease;
+  }
+  .plant-card:active { transform: scale(0.99); }
+
+  .plant-photo {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--r-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+  }
+  .plant-photo .scene {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 110px;
+    line-height: 1;
+    filter: drop-shadow(0 12px 22px rgba(0,0,0,0.18));
+    transform: translateY(2%);
+  }
+  .plant-photo .badge {
+    position: absolute;
+    top: var(--space-md); left: var(--space-md);
+    background: var(--canvas);
+    color: var(--ink);
+    border-radius: var(--r-full);
+    padding: 5px 11px;
+    font-size: 11px;
+    font-weight: 600;
+    box-shadow: var(--shadow-card);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* Photo backgrounds — one gradient per plant */
+  .bg-cayenne {
+    background:
+      radial-gradient(120% 80% at 30% 20%, #ffe5eb 0%, #ffd1da 38%, #ff8aa6 70%, #ff385c 100%);
+  }
+
+  .plant-meta { margin-top: var(--space-md); }
+  .plant-title-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-sm);
+  }
+  .plant-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .plant-subtitle {
+    margin-top: 2px;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .plant-tag {
+    font-size: 13px;
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+
+  /* ── Empty / coming soon hint ───────────── */
+  .placeholder {
+    margin-top: var(--space-base);
+    padding: var(--space-base);
+    border: 1px dashed var(--hairline);
+    border-radius: var(--r-md);
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* ── Footer ─────────────────────────────── */
+  footer {
+    margin-top: var(--space-xxl);
+    padding: var(--space-xl) 0 var(--space-xxl);
+    border-top: 1px solid var(--hairline);
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* ── Reveal ─────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+    .reveal { opacity: 1; transform: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* ── Responsive ─────────────────────────── */
+  @media (min-width: 600px) {
+    .container { padding: 0 var(--space-xl); max-width: 720px; }
+    .grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-base); }
+  }
+  @media (min-width: 960px) {
+    .container { max-width: 960px; }
+    .grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<header class="topnav">
+  <div class="container topnav-inner">
+    <span class="brand">
+      <span class="brand-orb" aria-hidden="true">🌶️</span>
+      PlantCare
+    </span>
+    <span class="nav-count" id="plant-count">1 Guide</span>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="intro">
+    <h1>Deine Pflegeguides</h1>
+    <p>Eine kleine Bibliothek mit Pflege-Anleitungen — pro Pflanze eine Seite, jede mit eigenem QR-Code.</p>
+  </section>
+
+  <section class="section reveal">
+    <div class="section-head">
+      <h2 class="section-title">Alle Pflanzen</h2>
+      <span class="section-meta">Tippen zum Öffnen</span>
+    </div>
+
+    <div class="grid">
+      <a class="plant-card" href="cayenne-pepper.html" aria-label="Cayenne Pepper Pflegeguide öffnen">
+        <div class="plant-photo bg-cayenne">
+          <div class="badge"><span aria-hidden="true">🌶️</span> Scharf</div>
+          <div class="scene" aria-hidden="true">🌶️</div>
+        </div>
+        <div class="plant-meta">
+          <div class="plant-title-row">
+            <span class="plant-title">Cayenne Pepper</span>
+            <span class="plant-tag">3 Setzlinge</span>
+          </div>
+          <div class="plant-subtitle">Anfängerfreundlich · sonnig · Terrakotta</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="placeholder">
+      Weitere Pflegeguides folgen — pro Pflanze landet eine eigene Seite hier.
+    </div>
+  </section>
+
+  <footer>
+    <p>PlantCare — Pflegeguides im Airbnb-Stil</p>
+  </footer>
+
+</main>
+
+<script>
+  // Auto-update plant count from grid
+  const cards = document.querySelectorAll('.plant-card');
+  const countEl = document.getElementById('plant-count');
+  if (countEl && cards.length) {
+    countEl.textContent = cards.length === 1 ? '1 Guide' : cards.length + ' Guides';
+  }
+
+  // Lightweight scroll-reveal
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+</script>
+
+</body>
+</html>

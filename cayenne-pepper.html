@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>Dein scharfer Mitbewohner — Cayenne-Pflegeguide</title>
+<meta name="description" content="Pflegeanleitung für drei junge Cayenne-Setzlinge im Terrakotta-Topf. Wasser, Licht, Umtopfen, Düngen und Pro-Tipps.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    /* Airbnb tokens */
+    --primary:        #ff385c;
+    --primary-active: #e00b41;
+    --ink:            #222222;
+    --body:           #3f3f3f;
+    --muted:          #6a6a6a;
+    --muted-soft:     #929292;
+    --hairline:       #dddddd;
+    --hairline-soft:  #ebebeb;
+    --canvas:         #ffffff;
+    --surface-soft:   #f7f7f7;
+    --surface-strong: #f2f2f2;
+    --on-primary:     #ffffff;
+
+    --shadow-card:
+      rgba(0,0,0,0.02) 0 0 0 1px,
+      rgba(0,0,0,0.04) 0 2px 6px 0,
+      rgba(0,0,0,0.10) 0 4px 8px 0;
+
+    --r-sm:   8px;
+    --r-md:  14px;
+    --r-lg:  20px;
+    --r-xl:  32px;
+    --r-full: 9999px;
+
+    --space-xs:  4px;
+    --space-sm:  8px;
+    --space-md: 12px;
+    --space-base:16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-xxl:48px;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', 'Airbnb Cereal VF', Circular, -apple-system, system-ui, Roboto, "Helvetica Neue", sans-serif;
+    background: var(--canvas);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+  }
+
+  /* ── Top nav ────────────────────────────── */
+  .topnav {
+    height: 64px;
+    border-bottom: 1px solid var(--hairline);
+    background: rgba(255,255,255,0.92);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: saturate(180%) blur(10px);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
+  }
+  .topnav-inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.1px;
+  }
+  .brand-orb {
+    width: 28px; height: 28px;
+    border-radius: var(--r-full);
+    background: var(--primary);
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    font-size: 14px;
+    line-height: 1;
+  }
+  .nav-tag {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    background: var(--surface-strong);
+    border-radius: var(--r-full);
+    padding: 4px 10px;
+  }
+
+  /* ── Hero ───────────────────────────────── */
+  .hero { margin: var(--space-lg) 0 var(--space-xl); }
+
+  .hero-photo {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background:
+      radial-gradient(120% 80% at 30% 20%, #ffe5eb 0%, #ffd1da 38%, #ff8aa6 70%, #ff385c 100%);
+    box-shadow: var(--shadow-card);
+  }
+  .hero-photo .scene {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 150px;
+    line-height: 1;
+    filter: drop-shadow(0 14px 28px rgba(0,0,0,0.20));
+    transform: translateY(2%);
+  }
+  .hero-photo .badge {
+    position: absolute;
+    top: var(--space-base); left: var(--space-base);
+    background: var(--canvas);
+    color: var(--ink);
+    border-radius: var(--r-full);
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    box-shadow: var(--shadow-card);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .hero-text { margin-top: var(--space-lg); }
+  .hero-text h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.18;
+    letter-spacing: -0.4px;
+    color: var(--ink);
+  }
+  .hero-text p {
+    margin-top: var(--space-md);
+    font-size: 16px;
+    color: var(--body);
+    line-height: 1.5;
+  }
+
+  .hero-meta {
+    margin-top: var(--space-base);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .dot {
+    width: 3px; height: 3px;
+    border-radius: var(--r-full);
+    background: var(--muted-soft);
+    display: inline-block;
+  }
+
+  /* ── Quick stats ────────────────────────── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: var(--space-lg);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-md);
+    padding: var(--space-base) var(--space-sm);
+    background: var(--canvas);
+  }
+  .stat { text-align: center; padding: 4px 6px; }
+  .stat + .stat { border-left: 1px solid var(--hairline-soft); }
+  .stat-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.18px;
+    line-height: 1.2;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+    line-height: 1.2;
+  }
+
+  /* ── Section primitives ─────────────────── */
+  .section { margin: var(--space-xl) 0; }
+
+  .section-eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.32px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: var(--space-sm);
+  }
+  .section-title {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.44px;
+    color: var(--ink);
+  }
+  .section-sub {
+    margin-top: var(--space-sm);
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.43;
+  }
+
+  /* ── Setup card ─────────────────────────── */
+  .setup-card {
+    margin-top: var(--space-base);
+    background: var(--surface-soft);
+    border-radius: var(--r-md);
+    padding: var(--space-base);
+    display: flex;
+    gap: var(--space-base);
+    align-items: center;
+  }
+  .setup-icon {
+    width: 48px; height: 48px;
+    border-radius: var(--r-full);
+    background: var(--canvas);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    line-height: 1;
+  }
+  .setup-text h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .setup-text p {
+    margin-top: 4px;
+    font-size: 14px;
+    color: var(--body);
+    line-height: 1.45;
+  }
+
+  /* ── Care cards ─────────────────────────── */
+  .cards { display: grid; gap: var(--space-md); margin-top: var(--space-base); }
+
+  .care-card {
+    background: var(--canvas);
+    border: 1px solid var(--hairline-soft);
+    border-radius: var(--r-md);
+    padding: var(--space-base);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .care-card:active {
+    transform: scale(0.995);
+    box-shadow: var(--shadow-card);
+  }
+  .care-card-head {
+    display: flex; align-items: center; gap: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+  .care-icon {
+    width: 44px; height: 44px;
+    border-radius: var(--r-full);
+    background: var(--surface-strong);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .care-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .care-card .freq {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 2px;
+    line-height: 1.2;
+  }
+  .care-card p {
+    font-size: 14px;
+    color: var(--body);
+    line-height: 1.5;
+  }
+  .hint {
+    margin-top: var(--space-md);
+    background: var(--surface-soft);
+    border-radius: var(--r-sm);
+    padding: var(--space-md);
+    font-size: 13px;
+    color: var(--body);
+    line-height: 1.45;
+    display: flex;
+    gap: var(--space-sm);
+    align-items: flex-start;
+  }
+  .hint-emoji { flex-shrink: 0; font-size: 16px; line-height: 1.2; }
+  .hint strong { color: var(--ink); font-weight: 600; }
+
+  /* ── Timeline ───────────────────────────── */
+  .timeline {
+    margin-top: var(--space-base);
+    position: relative;
+    padding-left: 28px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 9px; top: 6px; bottom: 6px;
+    width: 2px;
+    background: var(--hairline);
+    border-radius: var(--r-full);
+  }
+  .timeline-item { position: relative; padding-bottom: var(--space-lg); }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -23px; top: 4px;
+    width: 12px; height: 12px;
+    border-radius: var(--r-full);
+    background: var(--primary);
+    box-shadow: 0 0 0 4px var(--canvas), 0 0 0 5px var(--primary);
+  }
+  .timeline-when {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.32px;
+    text-transform: uppercase;
+    color: var(--primary);
+  }
+  .timeline-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-top: 4px;
+    line-height: 1.25;
+  }
+  .timeline-body {
+    font-size: 14px;
+    color: var(--body);
+    line-height: 1.5;
+    margin-top: 6px;
+  }
+  .timeline-body strong { color: var(--ink); font-weight: 600; }
+
+  /* ── Pro tipps (accordion) ──────────────── */
+  .tips { margin-top: var(--space-base); }
+  .tip { border-bottom: 1px solid var(--hairline-soft); }
+  .tip:first-child { border-top: 1px solid var(--hairline-soft); }
+  .tip-toggle {
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-base) 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-base);
+    font-family: inherit;
+    text-align: left;
+    color: var(--ink);
+  }
+  .tip-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex: 1;
+    min-width: 0;
+  }
+  .tip-emoji { font-size: 22px; line-height: 1; flex-shrink: 0; }
+  .tip-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .tip-chevron {
+    width: 24px; height: 24px;
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    color: var(--muted);
+    transition: transform 0.25s ease;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .tip[aria-expanded="true"] .tip-chevron { transform: rotate(180deg); }
+  .tip-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .tip-content-inner {
+    padding: 0 0 var(--space-base) 46px;
+    font-size: 14px;
+    color: var(--body);
+    line-height: 1.5;
+  }
+
+  /* ── Footer ─────────────────────────────── */
+  footer {
+    margin-top: var(--space-xxl);
+    padding: var(--space-xl) 0 var(--space-xxl);
+    border-top: 1px solid var(--hairline);
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  footer p + p { margin-top: 6px; }
+
+  /* ── Animations ─────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+    .reveal { opacity: 1; transform: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* Slightly more breathing room above mobile */
+  @media (min-width: 600px) {
+    .container { padding: 0 var(--space-xl); }
+  }
+</style>
+</head>
+<body>
+
+<header class="topnav">
+  <div class="container topnav-inner">
+    <span class="brand">
+      <span class="brand-orb" aria-hidden="true">🌶️</span>
+      PlantCare
+    </span>
+    <span class="nav-tag">Cayenne</span>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- Hero -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-photo">
+      <div class="badge"><span aria-hidden="true">🌱</span> Frisch eingezogen</div>
+      <div class="scene" aria-hidden="true">🌶️</div>
+    </div>
+
+    <div class="hero-text">
+      <h1 id="hero-title">Dein neuer scharfer Mitbewohner</h1>
+      <p>Drei kleine Cayenne-Setzlinge, ein Topf, viel Potenzial. Hier liest du Schritt für Schritt, wie aus den Pflänzchen eine kleine Schoten-Fabrik wird.</p>
+      <div class="hero-meta">
+        <span>Cayenne Pepper</span>
+        <span class="dot" aria-hidden="true"></span>
+        <span>Anfängerfreundlich</span>
+        <span class="dot" aria-hidden="true"></span>
+        <span>3 Setzlinge</span>
+      </div>
+    </div>
+
+    <div class="stats" aria-label="Setup-Übersicht">
+      <div class="stat">
+        <div class="stat-value">15&nbsp;cm</div>
+        <div class="stat-label">Topf jetzt</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">25–30</div>
+        <div class="stat-label">cm final</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">10&nbsp;°C</div>
+        <div class="stat-label">min. nachts</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Setup -->
+  <section class="section reveal">
+    <div class="section-eyebrow">Aktuelles Setup</div>
+    <h2 class="section-title">Wohngemeinschaft auf 15 cm</h2>
+
+    <div class="setup-card">
+      <div class="setup-icon" aria-hidden="true">🪴</div>
+      <div class="setup-text">
+        <h3>3 Setzlinge, 1 Terrakotta-Topf</h3>
+        <p>Aktuell teilen sich die drei Mitbewohner gemütlich einen 15 cm Terrakotta-Topf. Reicht für den Start — bald wollen sie aber jeder ihr eigenes Reich.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Daily Care -->
+  <section class="section reveal">
+    <div class="section-eyebrow">Tägliche Pflege</div>
+    <h2 class="section-title">Routine, die wirkt</h2>
+    <p class="section-sub">Zwei Dinge — und dann ist eigentlich Feierabend.</p>
+
+    <div class="cards">
+      <article class="care-card">
+        <div class="care-card-head">
+          <div class="care-icon" aria-hidden="true">💧</div>
+          <div>
+            <h3>Wasser</h3>
+            <div class="freq">Erde checken — alle 1–2 Tage</div>
+          </div>
+        </div>
+        <p>Erde leicht feucht halten, aber Staunässe unbedingt vermeiden. Lieber öfter ein Schluck als seltener viel.</p>
+        <div class="hint">
+          <span class="hint-emoji" aria-hidden="true">👆</span>
+          <span><strong>Fingerprobe ist Pflicht.</strong> Terrakotta atmet — die Erde trocknet hier schneller aus als in Plastiktöpfen. Finger einen Zentimeter rein, fühlt sich's trocken an, gibt's Wasser.</span>
+        </div>
+      </article>
+
+      <article class="care-card">
+        <div class="care-card-head">
+          <div class="care-icon" aria-hidden="true">☀️</div>
+          <div>
+            <h3>Licht</h3>
+            <div class="freq">So viel wie möglich</div>
+          </div>
+        </div>
+        <p>Cayenne lieben direkte Sonne. Je mehr Licht, desto mehr Schoten — so einfach ist die Rechnung.</p>
+        <div class="hint">
+          <span class="hint-emoji" aria-hidden="true">🌡️</span>
+          <span><strong>Raus an die frische Luft</strong> erst, wenn die Nächte konstant über 10&nbsp;°C bleiben. Bis dahin: bestes Süd- oder Westfenster.</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Milestones -->
+  <section class="section reveal">
+    <div class="section-eyebrow">Was als Nächstes ansteht</div>
+    <h2 class="section-title">Zukunft & Milestones</h2>
+    <p class="section-sub">Was du wann auf dem Schirm haben solltest.</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-when">In ein paar Wochen</div>
+        <div class="timeline-title"><span aria-hidden="true">🪴</span> Das große Umtopfen</div>
+        <p class="timeline-body">Wenn die drei sich anfangen in die Quere zu kommen, ist es Zeit für die WG-Auflösung. Jede Pflanze bekommt ihren eigenen Topf — <strong>25–30 cm Durchmesser</strong> für maximale Ernte. Ja, das ist viel Topf. Ja, es lohnt sich.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-when">Sobald Blüten kommen</div>
+        <div class="timeline-title"><span aria-hidden="true">🌱</span> Düngen einsteigen</div>
+        <p class="timeline-body">Erste Blüte gesichtet? Ab jetzt regelmäßig mit <strong>Tomaten- oder Gemüsedünger</strong> nach Packungsanleitung füttern. Mehr Energie = mehr Schoten.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pro Tipps -->
+  <section class="section reveal">
+    <div class="section-eyebrow">Pro-Tipps</div>
+    <h2 class="section-title">Kleine Tricks, große Ernte</h2>
+    <p class="section-sub">Tippen zum Aufklappen.</p>
+
+    <div class="tips">
+      <div class="tip" aria-expanded="false">
+        <button class="tip-toggle" aria-controls="tip-1" aria-expanded="false">
+          <span class="tip-label">
+            <span class="tip-emoji" aria-hidden="true">🐝</span>
+            <span class="tip-title">Bestäubungs-Trick</span>
+          </span>
+          <span class="tip-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="tip-content" id="tip-1" role="region">
+          <div class="tip-content-inner">
+            Drinnen fehlen Wind und Bienen. Schüttel die blühende Pflanze ein- bis zweimal am Tag ganz leicht — oder fahr mit dem Finger vorsichtig über die Blüten. Das simuliert die Bestäubung und sorgt dafür, dass aus Blüten auch wirklich Schoten werden.
+          </div>
+        </div>
+      </div>
+
+      <div class="tip" aria-expanded="false">
+        <button class="tip-toggle" aria-controls="tip-2" aria-expanded="false">
+          <span class="tip-label">
+            <span class="tip-emoji" aria-hidden="true">✂️</span>
+            <span class="tip-title">Ernte-Hack</span>
+          </span>
+          <span class="tip-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="tip-content" id="tip-2" role="region">
+          <div class="tip-content-inner">
+            Früh und häufig ernten — auch grüne Schoten zählen. Jede entfernte Schote ist für die Pflanze ein Signal: „Mehr produzieren!" Das Resultat: über die Saison deutlich mehr Früchte, als wenn du auf eine einzige große Ernte wartest.
+          </div>
+        </div>
+      </div>
+
+      <div class="tip" aria-expanded="false">
+        <button class="tip-toggle" aria-controls="tip-3" aria-expanded="false">
+          <span class="tip-label">
+            <span class="tip-emoji" aria-hidden="true">🌶️</span>
+            <span class="tip-title">Schärfe-Boost</span>
+          </span>
+          <span class="tip-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="tip-content" id="tip-3" role="region">
+          <div class="tip-content-inner">
+            Ein bisschen Stress macht Cayenne schärfer. In den letzten Wochen vor der Ernte einfach etwas zurückhaltender gießen — die Pflanze legt dann nochmal richtig Capsaicin nach. Nicht austrocknen lassen, nur knapper halten.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Mit <span aria-hidden="true">🌶️</span> verschenkt</p>
+    <p>Viel Spaß beim Gärtnern — und beim Schärfen.</p>
+  </footer>
+
+</main>
+
+<script>
+  // Single-open accordion for pro tips
+  const tips = document.querySelectorAll('.tip');
+  tips.forEach(tip => {
+    const btn = tip.querySelector('.tip-toggle');
+    const content = tip.querySelector('.tip-content');
+
+    btn.addEventListener('click', () => {
+      const isOpen = tip.getAttribute('aria-expanded') === 'true';
+
+      tips.forEach(other => {
+        if (other !== tip) {
+          other.setAttribute('aria-expanded', 'false');
+          other.querySelector('.tip-toggle').setAttribute('aria-expanded', 'false');
+          other.querySelector('.tip-content').style.maxHeight = '0px';
+        }
+      });
+
+      tip.setAttribute('aria-expanded', String(!isOpen));
+      btn.setAttribute('aria-expanded', String(!isOpen));
+      content.style.maxHeight = isOpen ? '0px' : content.scrollHeight + 'px';
+    });
+  });
+
+  // Lightweight scroll-reveal
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+</script>
+
+</body>
+</html>
