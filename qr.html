@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="robots" content="noindex">
+<title>QR-Generator — PlantCare</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --primary:        #ff385c;
+    --primary-active: #e00b41;
+    --ink:            #222222;
+    --body:           #3f3f3f;
+    --muted:          #6a6a6a;
+    --muted-soft:     #929292;
+    --hairline:       #dddddd;
+    --hairline-soft:  #ebebeb;
+    --canvas:         #ffffff;
+    --surface-soft:   #f7f7f7;
+    --surface-strong: #f2f2f2;
+
+    --shadow-card:
+      rgba(0,0,0,0.02) 0 0 0 1px,
+      rgba(0,0,0,0.04) 0 2px 6px 0,
+      rgba(0,0,0,0.10) 0 4px 8px 0;
+
+    --r-sm:   8px;
+    --r-md:  14px;
+    --r-lg:  20px;
+    --r-full: 9999px;
+
+    --space-xs:  4px;
+    --space-sm:  8px;
+    --space-md: 12px;
+    --space-base:16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-xxl:48px;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    font-family: 'Inter', 'Airbnb Cereal VF', Circular, -apple-system, system-ui, Roboto, "Helvetica Neue", sans-serif;
+    background: var(--canvas);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+  }
+
+  /* ── Top nav ────────────────────────────── */
+  .topnav {
+    height: 64px;
+    border-bottom: 1px solid var(--hairline);
+    background: rgba(255,255,255,0.92);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: saturate(180%) blur(10px);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
+  }
+  .topnav-inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.1px;
+  }
+  .brand-orb {
+    width: 28px; height: 28px;
+    border-radius: var(--r-full);
+    background: var(--primary);
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    font-size: 14px;
+    line-height: 1;
+  }
+  .nav-tag {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    background: var(--surface-strong);
+    border-radius: var(--r-full);
+    padding: 4px 10px;
+  }
+
+  /* ── Intro ──────────────────────────────── */
+  .intro { margin: var(--space-lg) 0 var(--space-xl); }
+  .intro h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.18;
+    letter-spacing: -0.4px;
+    color: var(--ink);
+  }
+  .intro p {
+    margin-top: var(--space-md);
+    font-size: 16px;
+    color: var(--body);
+  }
+
+  /* ── Section ────────────────────────────── */
+  .section { margin: var(--space-xl) 0; }
+  .section-eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.32px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: var(--space-sm);
+  }
+  .section-title {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.44px;
+    color: var(--ink);
+  }
+  .section-sub {
+    margin-top: var(--space-sm);
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.43;
+  }
+
+  /* ── Plant picker ───────────────────────── */
+  .plant-list {
+    margin-top: var(--space-base);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  .plant-option {
+    width: 100%;
+    background: var(--canvas);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-md);
+    padding: var(--space-md) var(--space-base);
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+    color: var(--ink);
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .plant-option:hover { border-color: var(--ink); }
+  .plant-option .emoji {
+    width: 40px; height: 40px;
+    border-radius: var(--r-full);
+    background: var(--surface-strong);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .plant-option .name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .plant-option .file {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 2px;
+    line-height: 1.2;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  .plant-option[aria-pressed="true"] {
+    border-color: var(--ink);
+    border-width: 2px;
+    padding: calc(var(--space-md) - 1px) calc(var(--space-base) - 1px);
+    background: var(--surface-soft);
+  }
+  .plant-option .check {
+    margin-left: auto;
+    width: 22px; height: 22px;
+    border-radius: var(--r-full);
+    background: var(--primary);
+    color: var(--canvas);
+    display: none;
+    align-items: center; justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .plant-option[aria-pressed="true"] .check { display: inline-flex; }
+
+  /* ── Base URL field ─────────────────────── */
+  .field { margin-top: var(--space-base); }
+  .field-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    margin-bottom: var(--space-xs);
+  }
+  .text-input {
+    width: 100%;
+    background: var(--canvas);
+    color: var(--ink);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-sm);
+    padding: 14px 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    transition: border-color 0.15s ease, border-width 0.15s ease;
+  }
+  .text-input:focus {
+    outline: none;
+    border-color: var(--ink);
+    border-width: 2px;
+    padding: 13px 11px;
+  }
+
+  /* ── QR display card ────────────────────── */
+  .qr-card {
+    margin-top: var(--space-base);
+    background: var(--canvas);
+    border: 1px solid var(--hairline-soft);
+    border-radius: var(--r-md);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: var(--shadow-card);
+  }
+  .qr-frame {
+    background: var(--canvas);
+    padding: var(--space-base);
+    border-radius: var(--r-sm);
+    border: 1px solid var(--hairline-soft);
+  }
+  .qr-frame canvas {
+    display: block;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+  .qr-url {
+    margin-top: var(--space-base);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12px;
+    color: var(--muted);
+    word-break: break-all;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .qr-empty {
+    color: var(--muted-soft);
+    font-size: 14px;
+    padding: var(--space-xl) 0;
+    text-align: center;
+  }
+
+  /* ── Buttons ────────────────────────────── */
+  .btn-row {
+    margin-top: var(--space-base);
+    display: flex;
+    gap: var(--space-sm);
+  }
+  .btn {
+    flex: 1;
+    height: 48px;
+    border-radius: var(--r-sm);
+    border: 1px solid transparent;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.25;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: 0 var(--space-base);
+    transition: background 0.15s ease;
+  }
+  .btn-primary {
+    background: var(--primary);
+    color: var(--canvas);
+  }
+  .btn-primary:hover { background: var(--primary-active); }
+  .btn-primary:disabled {
+    background: #ffd1da;
+    cursor: not-allowed;
+  }
+  .btn-secondary {
+    background: var(--canvas);
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  .btn-secondary:hover { background: var(--surface-soft); }
+
+  /* ── Toast ──────────────────────────────── */
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink);
+    color: var(--canvas);
+    border-radius: var(--r-full);
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+    z-index: 100;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ── Note ───────────────────────────────── */
+  .note {
+    margin-top: var(--space-base);
+    background: var(--surface-soft);
+    border-radius: var(--r-md);
+    padding: var(--space-base);
+    font-size: 13px;
+    color: var(--body);
+    line-height: 1.5;
+    display: flex;
+    gap: var(--space-sm);
+    align-items: flex-start;
+  }
+  .note .icon { flex-shrink: 0; }
+  .note strong { color: var(--ink); font-weight: 600; }
+
+  /* ── Footer ─────────────────────────────── */
+  footer {
+    margin-top: var(--space-xxl);
+    padding: var(--space-xl) 0 var(--space-xxl);
+    border-top: 1px solid var(--hairline);
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  @media (min-width: 600px) {
+    .container { padding: 0 var(--space-xl); }
+  }
+</style>
+</head>
+<body>
+
+<header class="topnav">
+  <div class="container topnav-inner">
+    <span class="brand">
+      <span class="brand-orb" aria-hidden="true">🌶️</span>
+      PlantCare
+    </span>
+    <span class="nav-tag">Tool</span>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="intro">
+    <div class="section-eyebrow">Internes Tool</div>
+    <h1>QR-Code-Generator</h1>
+    <p>Pflanze auswählen, QR-Code als PNG runterladen, drucken, ans Geschenk kleben. Solange die URL gleich bleibt, bleibt auch der QR-Code identisch — du kannst denselben einmal generierten Code dauerhaft wiederverwenden.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-eyebrow">Schritt 1</div>
+    <h2 class="section-title">Pflanze wählen</h2>
+    <div class="plant-list" id="plant-list" role="radiogroup" aria-label="Pflanze auswählen">
+      <!-- gefüllt per JS aus PLANTS -->
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-eyebrow">Schritt 2</div>
+    <h2 class="section-title">Basis-URL prüfen</h2>
+    <p class="section-sub">Wo deine Pflegeguides online liegen. Bei aktivem GitHub Pages voreingestellt — bei eigener Domain anpassen.</p>
+
+    <div class="field">
+      <label class="field-label" for="base">Basis-URL</label>
+      <input class="text-input" id="base" type="url" inputmode="url" autocomplete="off" spellcheck="false" value="https://hausblick.github.io/PlantCare/">
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-eyebrow">Schritt 3</div>
+    <h2 class="section-title">QR-Code</h2>
+    <p class="section-sub">Druckfertig in Schwarz auf Weiß. Fehlerkorrektur Q (~25 % Beschädigung tolerierbar).</p>
+
+    <div class="qr-card">
+      <div class="qr-frame" id="qr-frame">
+        <div class="qr-empty" id="qr-empty">Erst Pflanze wählen.</div>
+      </div>
+      <div class="qr-url" id="qr-url"></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="download" disabled>
+        <span aria-hidden="true">⬇</span> PNG laden
+      </button>
+      <button class="btn btn-secondary" id="copy" disabled>
+        <span aria-hidden="true">⧉</span> URL kopieren
+      </button>
+    </div>
+
+    <div class="note">
+      <span class="icon" aria-hidden="true">🔒</span>
+      <span><strong>Stabil:</strong> Solange Dateiname und Basis-URL gleich bleiben, ist das resultierende QR-Muster identisch — Bit für Bit. Einmal drucken reicht.</span>
+    </div>
+  </section>
+
+  <footer>
+    <p>PlantCare — internes Tool</p>
+  </footer>
+
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script>
+  // ─── Pflanzenliste ───
+  // Neue Pflanzen einfach hier ergänzen.
+  const PLANTS = [
+    { file: 'cayenne-pepper.html', name: 'Cayenne Pepper', emoji: '🌶️' }
+  ];
+
+  const listEl    = document.getElementById('plant-list');
+  const baseInput = document.getElementById('base');
+  const frameEl   = document.getElementById('qr-frame');
+  const emptyEl   = document.getElementById('qr-empty');
+  const urlEl     = document.getElementById('qr-url');
+  const dlBtn     = document.getElementById('download');
+  const cpBtn     = document.getElementById('copy');
+  const toastEl   = document.getElementById('toast');
+
+  let selected = null;
+  let currentUrl = '';
+
+  // ─── Plant picker rendern ───
+  PLANTS.forEach((p, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'plant-option';
+    btn.type = 'button';
+    btn.role = 'radio';
+    btn.dataset.file = p.file;
+    btn.setAttribute('aria-pressed', 'false');
+    btn.innerHTML = `
+      <span class="emoji" aria-hidden="true">${p.emoji}</span>
+      <span>
+        <span class="name">${p.name}</span>
+        <span class="file">${p.file}</span>
+      </span>
+      <span class="check" aria-hidden="true">✓</span>
+    `;
+    btn.addEventListener('click', () => select(p));
+    listEl.appendChild(btn);
+  });
+
+  function buildUrl(file) {
+    const base = baseInput.value.trim().replace(/\/+$/, '');
+    return `${base}/${file}`;
+  }
+
+  function select(plant) {
+    selected = plant;
+    listEl.querySelectorAll('.plant-option').forEach(o => {
+      o.setAttribute('aria-pressed', String(o.dataset.file === plant.file));
+    });
+    render();
+  }
+
+  function render() {
+    if (!selected) return;
+    currentUrl = buildUrl(selected.file);
+    urlEl.textContent = currentUrl;
+
+    // QR canvas neu zeichnen
+    frameEl.innerHTML = '';
+    const canvas = document.createElement('canvas');
+    frameEl.appendChild(canvas);
+
+    QRCode.toCanvas(canvas, currentUrl, {
+      width: 320,
+      margin: 2,
+      errorCorrectionLevel: 'Q',
+      color: { dark: '#222222', light: '#ffffff' }
+    }, (err) => {
+      if (err) {
+        frameEl.innerHTML = '<div class="qr-empty">Fehler beim Erzeugen.</div>';
+        return;
+      }
+    });
+
+    dlBtn.disabled = false;
+    cpBtn.disabled = false;
+  }
+
+  baseInput.addEventListener('input', () => { if (selected) render(); });
+
+  // ─── Download als PNG (höhere Auflösung für Print) ───
+  dlBtn.addEventListener('click', () => {
+    if (!selected) return;
+    QRCode.toDataURL(currentUrl, {
+      width: 1024,
+      margin: 2,
+      errorCorrectionLevel: 'Q',
+      color: { dark: '#222222', light: '#ffffff' }
+    }).then(dataUrl => {
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = `qr-${selected.file.replace(/\.html$/, '')}.png`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      toast('PNG geladen');
+    });
+  });
+
+  // ─── URL kopieren ───
+  cpBtn.addEventListener('click', async () => {
+    if (!currentUrl) return;
+    try {
+      await navigator.clipboard.writeText(currentUrl);
+      toast('URL kopiert');
+    } catch {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = currentUrl;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+      toast('URL kopiert');
+    }
+  });
+
+  // ─── Toast ───
+  let toastTimer;
+  function toast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove('show'), 1800);
+  }
+
+  // ─── Auto-Select erste Pflanze ───
+  if (PLANTS.length === 1) select(PLANTS[0]);
+</script>
+
+</body>
+</html>
