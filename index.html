@@ -117,6 +117,23 @@
 
   /* ── Intro ──────────────────────────────── */
   .intro { margin: var(--space-lg) 0 var(--space-xl); }
+  .qr-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-base);
+    padding: 8px 16px;
+    border-radius: var(--r-full);
+    border: 1px solid var(--hairline);
+    background: var(--surface-soft);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .qr-btn:hover { background: var(--surface-strong); border-color: var(--hairline); }
+  .qr-btn:active { background: var(--surface-strong); transform: scale(0.98); }
+
   .intro h1 {
     font-size: 28px;
     font-weight: 700;
@@ -296,17 +313,20 @@
 
   <section class="intro">
     <h1>Deine Pflegeguides</h1>
-    <p>Eine kleine Bibliothek mit Pflege-Anleitungen — pro Pflanze eine Seite, jede mit eigenem QR-Code.</p>
+    <p>Eine kleine Bibliothek mit Pflege-Anleitungen — pro Pflanze ein Guide, jeder mit eigenem QR-Code.</p>
+    <a href="qr.html" class="qr-btn">
+      <span aria-hidden="true">⬛</span> QR-Codes ansehen
+    </a>
   </section>
 
   <section class="section reveal">
     <div class="section-head">
       <h2 class="section-title">Alle Pflanzen</h2>
-      <span class="section-meta">Tippen zum Öffnen</span>
+      <span class="section-meta">Cards antippen zum Öffnen</span>
     </div>
 
     <div class="grid">
-      <a class="plant-card" href="cayenne-pepper.html" aria-label="Cayenne Pepper Pflegeguide öffnen">
+      <a class="plant-card" href="cayenne-peppers.html" aria-label="Cayenne Pepper Pflegeguide öffnen">
         <div class="plant-photo bg-cayenne">
           <div class="badge"><span aria-hidden="true">🌶️</span> Scharf</div>
           <div class="scene" aria-hidden="true">🌶️</div>
@@ -316,11 +336,11 @@
             <span class="plant-title">Cayenne Pepper</span>
             <span class="plant-tag">3 Setzlinge</span>
           </div>
-          <div class="plant-subtitle">Anfängerfreundlich · sonnig · Terrakotta</div>
+          <div class="plant-subtitle">Anfängerfreundlich · sonnig · Terrakottatopf</div>
         </div>
       </a>
 
-      <a class="plant-card" href="cayenne-pepper-anzucht.html" aria-label="Cayenne Pepper Anzucht Pflegeguide öffnen">
+      <a class="plant-card" href="cayenne-pepper.html" aria-label="Cayenne Pepper Anzucht Pflegeguide öffnen">
         <div class="plant-photo bg-cayenne">
           <div class="badge"><span aria-hidden="true">🌱</span> Anzucht</div>
           <div class="scene" aria-hidden="true">🌶️</div>
@@ -341,7 +361,7 @@
   </section>
 
   <footer>
-    <p>PlantCare — Pflegeguides im Airbnb-Stil</p>
+    <p>PlantCare — Ein Service by Niko</p>
   </footer>
 
 </main>
