@@ -219,11 +219,12 @@
     flex-wrap: wrap;
     justify-content: center;
     align-content: center;
-    width: 62px;
-    gap: 3px;
+    width: 60px;
+    gap: 2px;
     font-size: 26px;
     line-height: 1;
   }
+  .scene-fan span { width: 28px; text-align: center; }
 
   /* ── QR chip overlay on card photo ─────── */
   .qr-chip {
@@ -234,9 +235,12 @@
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     border-radius: var(--r-full);
+    border: none;
+    cursor: pointer;
     padding: 3px 7px;
     font-size: 10px;
     font-weight: 600;
+    font-family: inherit;
     color: var(--ink);
     box-shadow: var(--shadow-card);
     display: inline-flex;
@@ -325,6 +329,7 @@
     .grid { gap: var(--space-base); }
     .plant-photo .scene { font-size: 90px; }
     .scene-fan { font-size: 38px; width: 84px; gap: 4px; }
+    .scene-fan span { width: 40px; }
     .plant-photo .badge { top: var(--space-sm); left: var(--space-sm); padding: 4px 9px; font-size: 11px; }
     .qr-chip { bottom: var(--space-sm); right: var(--space-sm); padding: 4px 9px; font-size: 11px; }
     .plant-title { font-size: 14px; }
@@ -336,6 +341,7 @@
     .grid { grid-template-columns: repeat(4, 1fr); }
     .plant-photo .scene { font-size: 110px; }
     .scene-fan { font-size: 44px; width: 96px; gap: 5px; }
+    .scene-fan span { width: 46px; }
     .plant-photo .badge { top: var(--space-md); left: var(--space-md); padding: 5px 11px; font-size: 11px; }
     .qr-chip { bottom: var(--space-md); right: var(--space-md); padding: 5px 10px; font-size: 11px; }
     .plant-title { font-size: 16px; }
@@ -377,7 +383,7 @@
         <div class="plant-photo bg-cayenne">
           <div class="badge"><span aria-hidden="true">🌶️🌶️🌶️</span> scharf</div>
           <div class="scene" aria-hidden="true"><div class="scene-fan"><span>🌶️</span><span>🌶️</span><span>🌶️</span></div></div>
-          <a href="qr.html?plant=cayenne-peppers.html" class="qr-chip" aria-label="QR-Code öffnen">⬛ QR</a>
+          <button class="qr-chip" aria-label="QR-Code öffnen" onclick="event.stopPropagation();location.href='qr.html?plant=cayenne-peppers.html'">⬛ QR</button>
         </div>
         <div class="plant-meta">
           <div class="plant-title-row">
@@ -392,7 +398,7 @@
         <div class="plant-photo bg-cayenne">
           <div class="badge"><span aria-hidden="true">🌶️</span> scharf</div>
           <div class="scene" aria-hidden="true">🌶️</div>
-          <a href="qr.html?plant=cayenne-pepper.html" class="qr-chip" aria-label="QR-Code öffnen">⬛ QR</a>
+          <button class="qr-chip" aria-label="QR-Code öffnen" onclick="event.stopPropagation();location.href='qr.html?plant=cayenne-pepper.html'">⬛ QR</button>
         </div>
         <div class="plant-meta">
           <div class="plant-title-row">
