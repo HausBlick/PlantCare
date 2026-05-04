@@ -262,7 +262,7 @@
     border-radius: var(--r-sm);
     border: 1px solid var(--hairline-soft);
   }
-  .qr-frame canvas {
+  .qr-frame img {
     display: block;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
@@ -457,7 +457,6 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <script>
   // ─── Pflanzenliste ───
   // Neue Pflanzen einfach hier ergänzen.
@@ -466,10 +465,11 @@
     { file: 'cayenne-pepper.html',  name: 'Cayenne Pepper', emoji: '🌶️',       subtitle: '1 Setzling · Papier-Anzuchttopf' }
   ];
 
+  const QR_API = 'https://api.qrserver.com/v1/create-qr-code/';
+
   const listEl    = document.getElementById('plant-list');
   const baseInput = document.getElementById('base');
   const frameEl   = document.getElementById('qr-frame');
-  const emptyEl   = document.getElementById('qr-empty');
   const urlEl     = document.getElementById('qr-url');
   const dlBtn     = document.getElementById('download');
   const cpBtn     = document.getElementById('copy');
@@ -479,7 +479,7 @@
   let currentUrl = '';
 
   // ─── Plant picker rendern ───
-  PLANTS.forEach((p, i) => {
+  PLANTS.forEach((p) => {
     const btn = document.createElement('button');
     btn.className = 'plant-option';
     btn.type = 'button';
@@ -503,6 +503,10 @@
     return `${base}/${file}`;
   }
 
+  function qrImageUrl(targetUrl, size) {
+    return `${QR_API}?size=${size}x${size}&margin=2&ecc=Q&data=${encodeURIComponent(targetUrl)}`;
+  }
+
   function select(plant) {
     selected = plant;
     listEl.querySelectorAll('.plant-option').forEach(o => {
@@ -516,22 +520,17 @@
     currentUrl = buildUrl(selected.file);
     urlEl.textContent = currentUrl;
 
-    // QR canvas neu zeichnen
     frameEl.innerHTML = '';
-    const canvas = document.createElement('canvas');
-    frameEl.appendChild(canvas);
-
-    QRCode.toCanvas(canvas, currentUrl, {
-      width: 320,
-      margin: 2,
-      errorCorrectionLevel: 'Q',
-      color: { dark: '#222222', light: '#ffffff' }
-    }, (err) => {
-      if (err) {
-        frameEl.innerHTML = '<div class="qr-empty">Fehler beim Erzeugen.</div>';
-        return;
-      }
-    });
+    const img = document.createElement('img');
+    img.src = qrImageUrl(currentUrl, 320);
+    img.width = 320;
+    img.height = 320;
+    img.style.display = 'block';
+    img.alt = 'QR-Code für ' + selected.name;
+    img.onerror = () => {
+      frameEl.innerHTML = '<div class="qr-empty">Fehler beim Laden — Internetverbindung prüfen.</div>';
+    };
+    frameEl.appendChild(img);
 
     dlBtn.disabled = false;
     cpBtn.disabled = false;
@@ -542,20 +541,14 @@
   // ─── Download als PNG (höhere Auflösung für Print) ───
   dlBtn.addEventListener('click', () => {
     if (!selected) return;
-    QRCode.toDataURL(currentUrl, {
-      width: 1024,
-      margin: 2,
-      errorCorrectionLevel: 'Q',
-      color: { dark: '#222222', light: '#ffffff' }
-    }).then(dataUrl => {
-      const a = document.createElement('a');
-      a.href = dataUrl;
-      a.download = `qr-${selected.file.replace(/\.html$/, '')}.png`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      toast('PNG geladen');
-    });
+    const a = document.createElement('a');
+    a.href = qrImageUrl(currentUrl, 1024);
+    a.download = `qr-${selected.file.replace(/\.html$/, '')}.png`;
+    a.target = '_blank';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    toast('PNG geladen');
   });
 
   // ─── URL kopieren ───
