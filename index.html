@@ -213,6 +213,16 @@
     gap: 3px;
   }
 
+  /* ── Scene fan layout ───────────────────── */
+  .scene-fan { gap: 0; }
+  .scene-fan span {
+    display: inline-block;
+    transform-origin: bottom center;
+  }
+  .scene-fan span:nth-child(1) { transform: rotate(-22deg) translate(6px, 6px); }
+  .scene-fan span:nth-child(2) { transform: rotate(0deg) translateY(-4px); }
+  .scene-fan span:nth-child(3) { transform: rotate(22deg) translate(-6px, 6px); }
+
   /* Photo backgrounds — one gradient per plant */
   .bg-cayenne {
     background:
@@ -339,7 +349,7 @@
       <a class="plant-card" href="cayenne-peppers.html" aria-label="Cayenne Pepper Pflegeguide öffnen">
         <div class="plant-photo bg-cayenne">
           <div class="badge"><span aria-hidden="true">🌶️🌶️🌶️</span> scharf</div>
-          <div class="scene" aria-hidden="true">🌶️🌶️🌶️</div>
+          <div class="scene scene-fan" aria-hidden="true"><span>🌶️</span><span>🌶️</span><span>🌶️</span></div>
         </div>
         <div class="plant-meta">
           <div class="plant-title-row">
