@@ -137,6 +137,16 @@
     filter: drop-shadow(0 14px 28px rgba(0,0,0,0.20));
     transform: translateY(2%);
   }
+  .scene-fan {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    width: 140px;
+    gap: 6px;
+    font-size: 64px;
+    line-height: 1;
+  }
   .hero-photo .badge {
     position: absolute;
     top: var(--space-base); left: var(--space-base);
@@ -482,7 +492,7 @@
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero-photo">
       <div class="badge"><span aria-hidden="true">🌱</span> Frisch eingezogen</div>
-      <div class="scene" aria-hidden="true">🌶️</div>
+      <div class="scene" aria-hidden="true"><div class="scene-fan"><span>🌶️</span><span>🌶️</span><span>🌶️</span></div></div>
     </div>
 
     <div class="hero-text">

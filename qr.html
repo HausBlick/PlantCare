@@ -462,7 +462,8 @@
   // ─── Pflanzenliste ───
   // Neue Pflanzen einfach hier ergänzen.
   const PLANTS = [
-    { file: 'cayenne-pepper.html', name: 'Cayenne Pepper', emoji: '🌶️' }
+    { file: 'cayenne-peppers.html', name: 'Cayenne Pepper', emoji: '🌶️🌶️🌶️', subtitle: '3 Setzlinge · Terrakottatopf' },
+    { file: 'cayenne-pepper.html',  name: 'Cayenne Pepper', emoji: '🌶️',       subtitle: '1 Setzling · Papier-Anzuchttopf' }
   ];
 
   const listEl    = document.getElementById('plant-list');
@@ -489,7 +490,7 @@
       <span class="emoji" aria-hidden="true">${p.emoji}</span>
       <span>
         <span class="name">${p.name}</span>
-        <span class="file">${p.file}</span>
+        <span class="file">${p.subtitle ?? p.file}</span>
       </span>
       <span class="check" aria-hidden="true">✓</span>
     `;
@@ -584,8 +585,11 @@
     toastTimer = setTimeout(() => toastEl.classList.remove('show'), 1800);
   }
 
-  // ─── Auto-Select erste Pflanze ───
-  if (PLANTS.length === 1) select(PLANTS[0]);
+  // ─── Auto-Select via URL-Param oder bei einzelner Pflanze ───
+  const paramPlant = new URLSearchParams(location.search).get('plant');
+  const preselect  = paramPlant && PLANTS.find(p => p.file === paramPlant);
+  if (preselect)            select(preselect);
+  else if (PLANTS.length === 1) select(PLANTS[0]);
 </script>
 
 </body>

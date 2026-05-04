@@ -213,16 +213,38 @@
     gap: 3px;
   }
 
-  /* ── Scene fan layout ───────────────────── */
-  .scene-fan { font-size: 34px; gap: 0; }
-  .scene-fan span {
-    display: inline-block;
-    margin: 0 -3px;
-    transform-origin: bottom center;
+  /* ── Scene fan layout (inner wrapper) ──── */
+  .scene-fan {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    width: 62px;
+    gap: 3px;
+    font-size: 26px;
+    line-height: 1;
   }
-  .scene-fan span:nth-child(1) { transform: rotate(-20deg); }
-  .scene-fan span:nth-child(2) { transform: rotate(0deg) translateY(-6px); }
-  .scene-fan span:nth-child(3) { transform: rotate(20deg); }
+
+  /* ── QR chip overlay on card photo ─────── */
+  .qr-chip {
+    position: absolute;
+    bottom: var(--space-xs);
+    right: var(--space-xs);
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: var(--r-full);
+    padding: 3px 7px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--ink);
+    box-shadow: var(--shadow-card);
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    z-index: 1;
+  }
+  .qr-chip:hover { background: var(--canvas); }
 
   /* Photo backgrounds — one gradient per plant */
   .bg-cayenne {
@@ -302,7 +324,9 @@
     .container { padding: 0 var(--space-xl); max-width: 720px; }
     .grid { gap: var(--space-base); }
     .plant-photo .scene { font-size: 90px; }
+    .scene-fan { font-size: 38px; width: 84px; gap: 4px; }
     .plant-photo .badge { top: var(--space-sm); left: var(--space-sm); padding: 4px 9px; font-size: 11px; }
+    .qr-chip { bottom: var(--space-sm); right: var(--space-sm); padding: 4px 9px; font-size: 11px; }
     .plant-title { font-size: 14px; }
     .plant-subtitle { font-size: 12px; }
     .plant-tag { font-size: 12px; }
@@ -311,7 +335,9 @@
     .container { max-width: 960px; }
     .grid { grid-template-columns: repeat(4, 1fr); }
     .plant-photo .scene { font-size: 110px; }
+    .scene-fan { font-size: 44px; width: 96px; gap: 5px; }
     .plant-photo .badge { top: var(--space-md); left: var(--space-md); padding: 5px 11px; font-size: 11px; }
+    .qr-chip { bottom: var(--space-md); right: var(--space-md); padding: 5px 10px; font-size: 11px; }
     .plant-title { font-size: 16px; }
     .plant-subtitle { font-size: 13px; }
     .plant-tag { font-size: 13px; }
@@ -350,7 +376,8 @@
       <a class="plant-card" href="cayenne-peppers.html" aria-label="Cayenne Pepper Pflegeguide öffnen">
         <div class="plant-photo bg-cayenne">
           <div class="badge"><span aria-hidden="true">🌶️🌶️🌶️</span> scharf</div>
-          <div class="scene scene-fan" aria-hidden="true"><span>🌶️</span><span>🌶️</span><span>🌶️</span></div>
+          <div class="scene" aria-hidden="true"><div class="scene-fan"><span>🌶️</span><span>🌶️</span><span>🌶️</span></div></div>
+          <a href="qr.html?plant=cayenne-peppers.html" class="qr-chip" aria-label="QR-Code öffnen">⬛ QR</a>
         </div>
         <div class="plant-meta">
           <div class="plant-title-row">
@@ -365,6 +392,7 @@
         <div class="plant-photo bg-cayenne">
           <div class="badge"><span aria-hidden="true">🌶️</span> scharf</div>
           <div class="scene" aria-hidden="true">🌶️</div>
+          <a href="qr.html?plant=cayenne-pepper.html" class="qr-chip" aria-label="QR-Code öffnen">⬛ QR</a>
         </div>
         <div class="plant-meta">
           <div class="plant-title-row">
