@@ -303,7 +303,36 @@
     color: var(--body);
   }
   .stat-device-item { display: flex; align-items: center; gap: 4px; }
-  .stat-last { font-size: 12px; color: var(--muted); }
+  .stat-last        { font-size: 12px; color: var(--muted); }
+  .stat-last-detail { font-size: 11px; color: var(--muted-soft); margin-top: 2px; }
+
+  /* ── Recent visits list ──────────────────────────────── */
+  .visits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: var(--space-base);
+  }
+  .visit-row {
+    display: grid;
+    grid-template-columns: 90px 20px 1fr;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 9px var(--space-base);
+    background: var(--surface-soft);
+    border-radius: var(--r-sm);
+    font-size: 12px;
+  }
+  .visit-time  { color: var(--muted); font-size: 11px; }
+  .visit-meta  { color: var(--body); }
+  .visits-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-sm);
+  }
+  .visits-title { font-size: 14px; font-weight: 600; color: var(--muted); }
 
   /* ── QR section ──────────────────────────────────────── */
   .field-label {
@@ -497,6 +526,7 @@
       <span class="section-meta">Aufrufe der Guide-Seiten</span>
     </div>
     <div class="stats-grid" id="stats-grid"></div>
+    <div id="recent-visits"></div>
   </section>
 
   <section id="qr" class="section reveal">
@@ -629,8 +659,9 @@
             <span class="stat-number-label">Aufrufe</span>
           </div>
           <div class="stat-details">
-            <div class="stat-devices" id="sd-${id}"></div>
-            <div class="stat-last"    id="sl-${id}">Lade …</div>
+            <div class="stat-devices"     id="sd-${id}"></div>
+            <div class="stat-last"        id="sl-${id}">Lade …</div>
+            <div class="stat-last-detail" id="sld-${id}"></div>
           </div>
         </div>
       `;
@@ -639,29 +670,41 @@
   }
 
   function loadStats() {
-    fetch(SUPABASE_URL + '/rest/v1/plantcare_page_views?select=page,device_type,viewed_at&order=viewed_at.desc', {
+    fetch(SUPABASE_URL + '/rest/v1/plantcare_page_views?select=page,device_type,viewed_at,browser,os,country,city,referrer,screen,language,timezone&order=viewed_at.desc&limit=200', {
       headers: { 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY }
     })
     .then(r => r.json())
     .then(rows => {
       const map = {};
       rows.forEach(row => {
-        if (!map[row.page]) map[row.page] = { count: 0, devices: {}, last: null, lastDevice: null };
-        map[row.page].count++;
-        map[row.page].devices[row.device_type] = (map[row.page].devices[row.device_type] || 0) + 1;
-        if (!map[row.page].last) {
-          map[row.page].last       = row.viewed_at;
-          map[row.page].lastDevice = row.device_type;
+        if (!map[row.page]) map[row.page] = {
+          count: 0, devices: {}, browsers: {}, oses: {},
+          last: null, lastDevice: null, lastBrowser: null, lastOS: null,
+          lastCity: null, lastCountry: null
+        };
+        const s = map[row.page];
+        s.count++;
+        s.devices[row.device_type]  = (s.devices[row.device_type]  || 0) + 1;
+        s.browsers[row.browser]     = (s.browsers[row.browser]     || 0) + 1;
+        s.oses[row.os]              = (s.oses[row.os]              || 0) + 1;
+        if (!s.last) {
+          s.last        = row.viewed_at;
+          s.lastDevice  = row.device_type;
+          s.lastBrowser = row.browser;
+          s.lastOS      = row.os;
+          s.lastCity    = row.city;
+          s.lastCountry = row.country;
         }
       });
 
       PLANTS.forEach(p => {
-        const id = slugify(p.file);
-        const s  = map[p.file];
-        const numEl  = document.getElementById('sn-' + id);
-        const devEl  = document.getElementById('sd-' + id);
-        const lastEl = document.getElementById('sl-' + id);
-        const miniEl = document.querySelector(`[data-stats-page="${p.file}"]`);
+        const id    = slugify(p.file);
+        const s     = map[p.file];
+        const numEl = document.getElementById('sn-' + id);
+        const devEl = document.getElementById('sd-' + id);
+        const lastEl  = document.getElementById('sl-' + id);
+        const detEl   = document.getElementById('sld-' + id);
+        const miniEl  = document.querySelector(`[data-stats-page="${p.file}"]`);
 
         if (!s) {
           if (numEl)  numEl.textContent  = '0';
@@ -685,6 +728,12 @@
           lastEl.textContent = 'Zuletzt: ' + relTime(s.last) + ' · ' + deviceLabel(s.lastDevice);
         }
 
+        if (detEl) {
+          const loc = [s.lastCity, s.lastCountry].filter(Boolean).join(', ');
+          const parts = [s.lastBrowser, s.lastOS, loc].filter(Boolean);
+          detEl.textContent = parts.join(' · ');
+        }
+
         if (miniEl) {
           miniEl.textContent =
             s.count + (s.count === 1 ? ' Aufruf' : ' Aufrufe') +
@@ -692,11 +741,41 @@
             ' · ' + deviceLabel(s.lastDevice);
         }
       });
+
+      renderRecentVisits(rows);
     })
     .catch(() => {
       document.querySelectorAll('.stat-last').forEach(el => el.textContent = 'Fehler beim Laden');
-      document.querySelectorAll('.stat-number').forEach(el => { if (el.textContent === '—') el.textContent = '—'; });
     });
+  }
+
+  function renderRecentVisits(rows) {
+    const el = document.getElementById('recent-visits');
+    if (!el || !rows.length) return;
+
+    const plantByFile = {};
+    PLANTS.forEach(p => plantByFile[p.file] = p);
+
+    const items = rows.slice(0, 15).map(row => {
+      const p          = plantByFile[row.page];
+      const emoji      = p ? p.emojis[0] : '?';
+      const devIcon    = row.device_type === 'mobile' ? '📱' : row.device_type === 'tablet' ? '⬛' : '💻';
+      const loc        = [row.city, row.country].filter(Boolean).join(', ');
+      const metaParts  = [devIcon + ' ' + deviceLabel(row.device_type), row.browser, row.os, loc].filter(Boolean);
+      return `
+        <div class="visit-row">
+          <span class="visit-time">${relTime(row.viewed_at)}</span>
+          <span>${emoji}</span>
+          <span class="visit-meta">${metaParts.join(' · ')}</span>
+        </div>`;
+    }).join('');
+
+    el.innerHTML = `
+      <div class="visits-head">
+        <span class="visits-title">Letzte Aufrufe</span>
+        <span class="section-meta">${rows.length} gesamt</span>
+      </div>
+      <div class="visits-list">${items}</div>`;
   }
 
   // ─── Section 3: QR-Codes ─────────────────────────────────

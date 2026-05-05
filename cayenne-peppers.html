@@ -703,22 +703,61 @@
 (function() {
   var SUPABASE_URL = 'https://frjmvszuncgbmqgfjcgz.supabase.co';
   var ANON_KEY = 'sb_publishable_htYoshV2Tb54M3q4XpLn7g_1Ih4Z9QJ';
-  function deviceType() {
-    var ua = navigator.userAgent;
-    if (/tablet|ipad|playbook|silk/i.test(ua)) return 'tablet';
-    if (/mobile|iphone|ipod|android|blackberry/i.test(ua)) return 'mobile';
+  var PAGE = 'cayenne-peppers.html';
+
+  var ua = navigator.userAgent;
+
+  function deviceType(u) {
+    if (/tablet|ipad|playbook|silk/i.test(u)) return 'tablet';
+    if (/mobile|iphone|ipod|android|blackberry/i.test(u)) return 'mobile';
     return 'desktop';
   }
-  fetch(SUPABASE_URL + '/rest/v1/plantcare_page_views', {
-    method: 'POST',
-    headers: {
-      'apikey': ANON_KEY,
-      'Authorization': 'Bearer ' + ANON_KEY,
-      'Content-Type': 'application/json',
-      'Prefer': 'return=minimal'
-    },
-    body: JSON.stringify({ page: 'cayenne-peppers.html', device_type: deviceType(), user_agent: navigator.userAgent })
-  });
+  function getBrowser(u) {
+    if (/edg\//i.test(u))       return 'Edge';
+    if (/opr|opera/i.test(u))   return 'Opera';
+    if (/chrome/i.test(u))      return 'Chrome';
+    if (/firefox/i.test(u))     return 'Firefox';
+    if (/safari/i.test(u))      return 'Safari';
+    return 'Other';
+  }
+  function getOS(u) {
+    if (/windows nt/i.test(u))         return 'Windows';
+    if (/android/i.test(u))            return 'Android';
+    if (/iphone|ipad|ipod/i.test(u))   return 'iOS';
+    if (/mac os x/i.test(u))           return 'macOS';
+    if (/linux/i.test(u))              return 'Linux';
+    return 'Other';
+  }
+
+  var data = {
+    page:        PAGE,
+    device_type: deviceType(ua),
+    user_agent:  ua,
+    browser:     getBrowser(ua),
+    os:          getOS(ua),
+    referrer:    document.referrer || null,
+    screen:      window.screen.width + 'x' + window.screen.height,
+    language:    navigator.language || null,
+    timezone:    (Intl && Intl.DateTimeFormat) ? Intl.DateTimeFormat().resolvedOptions().timeZone : null,
+  };
+
+  function send(extra) {
+    fetch(SUPABASE_URL + '/rest/v1/plantcare_page_views', {
+      method: 'POST',
+      headers: {
+        'apikey': ANON_KEY,
+        'Authorization': 'Bearer ' + ANON_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(Object.assign({}, data, extra || {}))
+    });
+  }
+
+  fetch('https://ipapi.co/json/')
+    .then(function(r) { return r.json(); })
+    .then(function(g) { send({ country: g.country_name || null, city: g.city || null }); })
+    .catch(function()  { send(); });
 })();
 </script>
 
