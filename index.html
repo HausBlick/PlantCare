@@ -305,6 +305,25 @@
   .stat-device-item { display: flex; align-items: center; gap: 4px; }
   .stat-last        { font-size: 12px; color: var(--muted); }
   .stat-last-detail { font-size: 11px; color: var(--muted-soft); margin-top: 2px; }
+  .stat-returning {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space-sm);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .stat-returning-new  { color: #16a34a; font-weight: 600; }
+  .stat-returning-back { color: var(--primary); font-weight: 600; }
+  .visit-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: var(--r-full);
+    flex-shrink: 0;
+  }
+  .visit-badge-new  { background: #dcfce7; color: #16a34a; }
+  .visit-badge-back { background: #ffe4e6; color: var(--primary); }
 
   /* ── Recent visits list ──────────────────────────────── */
   .visits-list {
@@ -315,7 +334,7 @@
   }
   .visit-row {
     display: grid;
-    grid-template-columns: 90px 20px 1fr;
+    grid-template-columns: 90px 20px 1fr auto;
     align-items: center;
     gap: var(--space-sm);
     padding: 9px var(--space-base);
@@ -660,6 +679,7 @@
           </div>
           <div class="stat-details">
             <div class="stat-devices"     id="sd-${id}"></div>
+            <div class="stat-returning"   id="sr-${id}"></div>
             <div class="stat-last"        id="sl-${id}">Lade …</div>
             <div class="stat-last-detail" id="sld-${id}"></div>
           </div>
@@ -670,7 +690,7 @@
   }
 
   function loadStats() {
-    fetch(SUPABASE_URL + '/rest/v1/plantcare_page_views?select=page,device_type,viewed_at,browser,os,country,city,referrer,screen,language,timezone&order=viewed_at.desc&limit=200', {
+    fetch(SUPABASE_URL + '/rest/v1/plantcare_page_views?select=page,device_type,viewed_at,browser,os,country,city,referrer,screen,language,timezone,visitor_id,is_returning&order=viewed_at.desc&limit=200', {
       headers: { 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY }
     })
     .then(r => r.json())
@@ -678,12 +698,14 @@
       const map = {};
       rows.forEach(row => {
         if (!map[row.page]) map[row.page] = {
-          count: 0, devices: {}, browsers: {}, oses: {},
+          count: 0, newVisitors: 0, returningVisitors: 0,
+          devices: {}, browsers: {}, oses: {},
           last: null, lastDevice: null, lastBrowser: null, lastOS: null,
           lastCity: null, lastCountry: null
         };
         const s = map[row.page];
         s.count++;
+        if (row.is_returning) s.returningVisitors++; else s.newVisitors++;
         s.devices[row.device_type]  = (s.devices[row.device_type]  || 0) + 1;
         s.browsers[row.browser]     = (s.browsers[row.browser]     || 0) + 1;
         s.oses[row.os]              = (s.oses[row.os]              || 0) + 1;
@@ -700,11 +722,12 @@
       PLANTS.forEach(p => {
         const id    = slugify(p.file);
         const s     = map[p.file];
-        const numEl = document.getElementById('sn-' + id);
-        const devEl = document.getElementById('sd-' + id);
-        const lastEl  = document.getElementById('sl-' + id);
-        const detEl   = document.getElementById('sld-' + id);
-        const miniEl  = document.querySelector(`[data-stats-page="${p.file}"]`);
+        const numEl  = document.getElementById('sn-'  + id);
+        const devEl  = document.getElementById('sd-'  + id);
+        const retEl  = document.getElementById('sr-'  + id);
+        const lastEl = document.getElementById('sl-'  + id);
+        const detEl  = document.getElementById('sld-' + id);
+        const miniEl = document.querySelector(`[data-stats-page="${p.file}"]`);
 
         if (!s) {
           if (numEl)  numEl.textContent  = '0';
@@ -722,6 +745,13 @@
               const label = d === 'mobile' ? 'Handy' : d === 'desktop' ? 'Desktop' : 'Tablet';
               return `<span class="stat-device-item">${label} ${s.devices[d]}</span>`;
             }).join('');
+        }
+
+        if (retEl) {
+          const parts = [];
+          if (s.newVisitors)       parts.push(`<span class="stat-returning-new">${s.newVisitors} neu</span>`);
+          if (s.returningVisitors) parts.push(`<span class="stat-returning-back">${s.returningVisitors} wiederkehrend</span>`);
+          retEl.innerHTML = parts.join('<span style="color:var(--hairline)"> · </span>');
         }
 
         if (lastEl && s.last) {
@@ -761,11 +791,15 @@
       const emoji      = p ? p.emojis[0] : '?';
       const loc        = [row.city, row.country].filter(Boolean).join(', ');
       const metaParts  = [deviceLabel(row.device_type), row.browser, row.os, loc].filter(Boolean);
+      const badge      = row.is_returning
+        ? `<span class="visit-badge visit-badge-back">↩ wieder</span>`
+        : `<span class="visit-badge visit-badge-new">Neu</span>`;
       return `
         <div class="visit-row">
           <span class="visit-time">${relTime(row.viewed_at)}</span>
           <span>${emoji}</span>
           <span class="visit-meta">${metaParts.join(' · ')}</span>
+          ${badge}
         </div>`;
     }).join('');
 

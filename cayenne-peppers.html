@@ -729,16 +729,25 @@
     return 'Other';
   }
 
+  var visitorId   = localStorage.getItem('plantcare_vid');
+  var isReturning = !!visitorId;
+  if (!visitorId) {
+    visitorId = 'v' + Math.random().toString(36).slice(2, 9) + Date.now().toString(36);
+    localStorage.setItem('plantcare_vid', visitorId);
+  }
+
   var data = {
-    page:        PAGE,
-    device_type: deviceType(ua),
-    user_agent:  ua,
-    browser:     getBrowser(ua),
-    os:          getOS(ua),
-    referrer:    document.referrer || null,
-    screen:      window.screen.width + 'x' + window.screen.height,
-    language:    navigator.language || null,
-    timezone:    (Intl && Intl.DateTimeFormat) ? Intl.DateTimeFormat().resolvedOptions().timeZone : null,
+    page:         PAGE,
+    device_type:  deviceType(ua),
+    user_agent:   ua,
+    browser:      getBrowser(ua),
+    os:           getOS(ua),
+    referrer:     document.referrer || null,
+    screen:       window.screen.width + 'x' + window.screen.height,
+    language:     navigator.language || null,
+    timezone:     (Intl && Intl.DateTimeFormat) ? Intl.DateTimeFormat().resolvedOptions().timeZone : null,
+    visitor_id:   visitorId,
+    is_returning: isReturning,
   };
 
   function send(extra) {
