@@ -719,8 +719,8 @@
           devEl.innerHTML = ['mobile','desktop','tablet']
             .filter(d => s.devices[d])
             .map(d => {
-              const icon = d === 'mobile' ? '📱' : d === 'desktop' ? '💻' : '⬛';
-              return `<span class="stat-device-item">${icon} ${s.devices[d]}</span>`;
+              const label = d === 'mobile' ? 'Handy' : d === 'desktop' ? 'Desktop' : 'Tablet';
+              return `<span class="stat-device-item">${label} ${s.devices[d]}</span>`;
             }).join('');
         }
 
@@ -759,9 +759,8 @@
     const items = rows.slice(0, 15).map(row => {
       const p          = plantByFile[row.page];
       const emoji      = p ? p.emojis[0] : '?';
-      const devIcon    = row.device_type === 'mobile' ? '📱' : row.device_type === 'tablet' ? '⬛' : '💻';
       const loc        = [row.city, row.country].filter(Boolean).join(', ');
-      const metaParts  = [devIcon + ' ' + deviceLabel(row.device_type), row.browser, row.os, loc].filter(Boolean);
+      const metaParts  = [deviceLabel(row.device_type), row.browser, row.os, loc].filter(Boolean);
       return `
         <div class="visit-row">
           <span class="visit-time">${relTime(row.viewed_at)}</span>
