@@ -15,31 +15,40 @@
   var PLANT_CONTEXT = meta('planty-context');
   var PLANT_LABEL   = meta('planty-label') || 'deiner Pflanze';
 
-  // ── CSS injizieren ──────────────────────────────────────
+  // ── FAB icon: speech bubble + leaf SVG ─────────────────
+  var FAB_ICON =
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+      '<path d="M12 3C7.03 3 3 6.58 3 11C3 13.6 4.28 15.94 6.36 17.48V21.5L10.42 19.44C10.93 19.52 11.46 19.56 12 19.56C16.97 19.56 21 15.98 21 11C21 6.58 16.97 3 12 3Z" fill="white"/>' +
+      '<path d="M12 16C12 16 11.4 11.6 8.5 10C10.2 10 13.4 11.1 13 13.8C14.6 11.6 16.2 10.6 16.2 10.6C14.6 13.4 12 16 12 16Z" fill="#ff385c"/>' +
+    '</svg>';
+
+  // ── CSS ─────────────────────────────────────────────────
+  var FONT = "'-apple-system','BlinkMacSystemFont','Circular','Helvetica Neue',sans-serif";
   var css = [
-    '.planty-fab{position:fixed;bottom:20px;right:20px;z-index:1000;width:56px;height:56px;border-radius:50%;background:#16a34a;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(22,163,74,.45);display:flex;align-items:center;justify-content:center;font-size:26px;transition:transform .2s,box-shadow .2s;color:#fff;font-family:inherit}',
-    '.planty-fab:hover{transform:scale(1.08);box-shadow:0 6px 20px rgba(22,163,74,.55)}',
-    '.planty-window{position:fixed;bottom:88px;right:20px;z-index:1000;width:360px;height:500px;background:#fff;border-radius:18px;box-shadow:0 8px 40px rgba(0,0,0,.18);display:flex;flex-direction:column;overflow:hidden;transform:scale(.94) translateY(10px);opacity:0;pointer-events:none;transition:transform .22s ease,opacity .22s ease}',
+    '.planty-fab{position:fixed;bottom:24px;right:24px;z-index:1000;width:56px;height:56px;border-radius:9999px;background:#ff385c;border:none;cursor:pointer;box-shadow:rgba(0,0,0,0.02) 0 0 0 1px,rgba(0,0,0,0.04) 0 2px 6px,rgba(0,0,0,0.12) 0 6px 20px;display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s;color:#fff;font-family:inherit}',
+    '.planty-fab:hover{transform:scale(1.06);box-shadow:rgba(0,0,0,0.02) 0 0 0 1px,rgba(0,0,0,0.06) 0 4px 10px,rgba(0,0,0,0.16) 0 8px 28px}',
+    '.planty-window{position:fixed;bottom:92px;right:24px;z-index:1000;width:370px;height:520px;background:#fff;border-radius:20px;box-shadow:rgba(0,0,0,0.02) 0 0 0 1px,rgba(0,0,0,0.04) 0 2px 6px,rgba(0,0,0,0.12) 0 8px 32px;display:flex;flex-direction:column;overflow:hidden;transform:scale(.95) translateY(12px);opacity:0;pointer-events:none;transition:transform .22s ease,opacity .22s ease}',
     '.planty-window.open{transform:scale(1) translateY(0);opacity:1;pointer-events:auto}',
-    '.planty-header{background:#16a34a;color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0}',
-    '.planty-avatar{width:36px;height:36px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}',
+    '.planty-header{background:#ff385c;color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0}',
+    '.planty-avatar{width:38px;height:38px;background:rgba(255,255,255,.2);border-radius:9999px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}',
     '.planty-header-text{flex:1}',
-    '.planty-header-name{font-size:15px;font-weight:700;line-height:1.2}',
-    '.planty-header-sub{font-size:11px;opacity:.82;margin-top:1px}',
-    '.planty-close{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;padding:0;line-height:1;opacity:.75;flex-shrink:0}',
-    '.planty-close:hover{opacity:1}',
-    '.planty-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px}',
-    '.planty-bubble{max-width:84%;padding:10px 13px;border-radius:14px;font-size:14px;line-height:1.5;word-break:break-word}',
-    '.planty-bubble.user{background:#ff385c;color:#fff;align-self:flex-end;border-bottom-right-radius:4px}',
-    '.planty-bubble.assistant{background:#f0fdf4;color:#1a1a1a;align-self:flex-start;border-bottom-left-radius:4px;border:1px solid #bbf7d0}',
-    '.planty-bubble.loading{background:#f0fdf4;color:#6a6a6a;align-self:flex-start;border-bottom-left-radius:4px;border:1px solid #bbf7d0;font-style:italic}',
-    '.planty-footer{border-top:1px solid #eee;padding:10px 12px;display:flex;align-items:flex-end;gap:8px;flex-shrink:0}',
-    '.planty-input{flex:1;border:1px solid #ddd;border-radius:12px;padding:10px 13px;font-size:14px;font-family:inherit;outline:none;resize:none;line-height:1.45;max-height:90px;overflow-y:auto}',
-    '.planty-input:focus{border-color:#16a34a}',
-    '.planty-send{width:38px;height:38px;border-radius:10px;background:#16a34a;border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}',
-    '.planty-send:hover{background:#15803d}',
-    '.planty-send:disabled{background:#86efac;cursor:not-allowed}',
-    '@media(max-width:500px){.planty-window{bottom:0;right:0;left:0;width:100%;height:72vh;border-radius:18px 18px 0 0}.planty-fab{bottom:16px;right:16px}}'
+    '.planty-header-name{font-size:15px;font-weight:600;line-height:1.25;letter-spacing:0}',
+    '.planty-header-sub{font-size:12px;opacity:.85;margin-top:2px;font-weight:400}',
+    '.planty-close{background:none;border:none;color:#fff;cursor:pointer;padding:0;line-height:1;opacity:.7;flex-shrink:0;border-radius:9999px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;transition:opacity .15s,background .15s;font-size:18px}',
+    '.planty-close:hover{opacity:1;background:rgba(255,255,255,.18)}',
+    '.planty-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:#fff}',
+    '.planty-bubble{max-width:82%;padding:10px 14px;font-size:14px;line-height:1.43;word-break:break-word}',
+    '.planty-bubble.user{background:#ff385c;color:#fff;align-self:flex-end;border-radius:20px 20px 4px 20px}',
+    '.planty-bubble.assistant{background:#f7f7f7;color:#222;align-self:flex-start;border-radius:20px 20px 20px 4px;border:1px solid #ebebeb}',
+    '.planty-bubble.loading{background:#f7f7f7;color:#6a6a6a;align-self:flex-start;border-radius:20px 20px 20px 4px;border:1px solid #ebebeb;font-style:italic}',
+    '.planty-footer{border-top:1px solid #dddddd;padding:12px;display:flex;align-items:flex-end;gap:8px;flex-shrink:0;background:#fff}',
+    '.planty-input{flex:1;border:1px solid #dddddd;border-radius:20px;padding:10px 14px;font-size:14px;font-family:inherit;outline:none;resize:none;line-height:1.43;max-height:90px;overflow-y:auto;color:#222;background:#fff;transition:border .15s}',
+    '.planty-input:focus{border-color:#222;border-width:2px;padding:9px 13px}',
+    '.planty-input::placeholder{color:#929292}',
+    '.planty-send{width:38px;height:38px;border-radius:9999px;background:#ff385c;border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}',
+    '.planty-send:hover{background:#e00b41}',
+    '.planty-send:disabled{background:#ffd1da;cursor:not-allowed}',
+    '@media(max-width:500px){.planty-window{bottom:0;right:0;left:0;width:100%;height:75vh;border-radius:20px 20px 0 0}.planty-fab{bottom:20px;right:20px}}'
   ].join('');
   var styleEl = document.createElement('style');
   styleEl.textContent = css;
@@ -48,17 +57,17 @@
   // ── DOM aufbauen ────────────────────────────────────────
   var fab = document.createElement('button');
   fab.className = 'planty-fab';
-  fab.innerHTML = '&#x1F331;';
-  fab.title = 'Planty — Dein Pflanzen-Assistent';
+  fab.innerHTML = FAB_ICON;
+  fab.title = 'Planty — Dein Assistent';
   fab.setAttribute('aria-label', 'Planty Chat öffnen');
 
   var win = document.createElement('div');
   win.className = 'planty-window';
   win.setAttribute('role', 'dialog');
-  win.setAttribute('aria-label', 'Planty – Pflanzen-Assistent');
+  win.setAttribute('aria-label', 'Planty – Assistent');
   win.innerHTML =
     '<div class="planty-header">' +
-      '<div class="planty-avatar">&#x1F331;</div>' +
+      '<div class="planty-avatar">&#x1FAB4;</div>' +
       '<div class="planty-header-text">' +
         '<div class="planty-header-name">Planty</div>' +
         '<div class="planty-header-sub">Dein Assistent für ' + PLANT_LABEL + '</div>' +
@@ -67,7 +76,7 @@
     '</div>' +
     '<div class="planty-messages" id="planty-msgs"></div>' +
     '<div class="planty-footer">' +
-      '<textarea class="planty-input" id="planty-input" placeholder="Stelle eine Frage …" rows="1" aria-label="Nachricht eingeben"></textarea>' +
+      '<textarea class="planty-input" id="planty-input" placeholder="Stell eine Frage …" rows="1" aria-label="Nachricht eingeben"></textarea>' +
       '<button class="planty-send" id="planty-send" disabled aria-label="Senden">&#x2191;</button>' +
     '</div>';
 
@@ -125,13 +134,13 @@
     .then(function (r) { return r.json(); })
     .then(function (rows) {
       if (!rows.length) {
-        addBubble('assistant', 'Hallo! Ich bin Planty 🌱 Ich helfe dir bei allen Fragen rund um ' + PLANT_LABEL + '. Was möchtest du wissen?');
+        addBubble('assistant', 'Hallo! Ich bin Planty 🪴 Ich bin dein Assistent für ' + PLANT_LABEL + '. Frag mich alles, was du wissen möchtest!');
       } else {
         rows.forEach(function (r) { addBubble(r.role, r.content); });
       }
     })
     .catch(function () {
-      addBubble('assistant', 'Hallo! Ich bin Planty 🌱 Was möchtest du wissen?');
+      addBubble('assistant', 'Hallo! Ich bin Planty 🪴 Was möchtest du wissen?');
     });
   }
 
