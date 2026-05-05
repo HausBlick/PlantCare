@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#ffffff">
-<title>PlantCare — Pflegeguides</title>
-<meta name="description" content="Übersicht aller Pflegeguides — eine kleine Bibliothek für deine Pflanzen.">
+<meta name="robots" content="noindex">
+<title>PlantCare — Admin</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,6 +14,7 @@
 <style>
   :root {
     --primary:        #ff385c;
+    --primary-active: #e00b41;
     --ink:            #222222;
     --body:           #3f3f3f;
     --muted:          #6a6a6a;
@@ -34,13 +35,13 @@
     --r-lg:  20px;
     --r-full: 9999px;
 
-    --space-xs:  4px;
-    --space-sm:  8px;
-    --space-md: 12px;
+    --space-xs:   4px;
+    --space-sm:   8px;
+    --space-md:  12px;
     --space-base:16px;
-    --space-lg: 24px;
-    --space-xl: 32px;
-    --space-xxl:48px;
+    --space-lg:  24px;
+    --space-xl:  32px;
+    --space-xxl: 48px;
   }
 
   *, *::before, *::after {
@@ -53,7 +54,7 @@
   html { scroll-behavior: smooth; }
 
   body {
-    font-family: 'Inter', 'Airbnb Cereal VF', Circular, -apple-system, system-ui, Roboto, "Helvetica Neue", sans-serif;
+    font-family: 'Inter', -apple-system, system-ui, Roboto, "Helvetica Neue", sans-serif;
     background: var(--canvas);
     color: var(--ink);
     font-size: 16px;
@@ -66,12 +67,12 @@
   a { color: inherit; text-decoration: none; }
 
   .container {
-    max-width: 480px;
+    max-width: 540px;
     margin: 0 auto;
     padding: 0 var(--space-lg);
   }
 
-  /* ── Top nav ────────────────────────────── */
+  /* ── Topnav ──────────────────────────────────────────── */
   .topnav {
     height: 64px;
     border-bottom: 1px solid var(--hairline);
@@ -87,6 +88,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: var(--space-base);
   }
   .brand {
     display: inline-flex;
@@ -95,7 +97,7 @@
     font-size: 16px;
     font-weight: 600;
     color: var(--ink);
-    letter-spacing: -0.1px;
+    flex-shrink: 0;
   }
   .brand-orb {
     width: 28px; height: 28px;
@@ -106,62 +108,45 @@
     font-size: 14px;
     line-height: 1;
   }
-  .nav-count {
-    font-size: 11px;
-    font-weight: 600;
+  .brand-tag {
+    font-size: 10px;
+    font-weight: 700;
     color: var(--muted);
     background: var(--surface-strong);
     border-radius: var(--r-full);
-    padding: 4px 10px;
+    padding: 3px 8px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
   }
-
-  /* ── Intro ──────────────────────────────── */
-  .intro { margin: var(--space-lg) 0 var(--space-xl); }
-  .qr-btn {
-    display: inline-flex;
+  .topnav-links {
+    display: flex;
+    gap: var(--space-base);
     align-items: center;
-    gap: var(--space-sm);
-    margin-top: var(--space-base);
-    padding: 8px 16px;
-    border-radius: var(--r-full);
-    border: 1px solid var(--hairline);
-    background: var(--surface-soft);
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--ink);
-    transition: background 0.15s ease, border-color 0.15s ease;
   }
-  .qr-btn:hover { background: var(--surface-strong); border-color: var(--hairline); }
-  .qr-btn:active { background: var(--surface-strong); transform: scale(0.98); }
+  .topnav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    transition: color 0.15s;
+    white-space: nowrap;
+  }
+  .topnav-links a:hover { color: var(--ink); }
 
-  .intro h1 {
-    font-size: 28px;
-    font-weight: 700;
-    line-height: 1.18;
-    letter-spacing: -0.4px;
-    color: var(--ink);
-  }
-  .intro p {
-    margin-top: var(--space-md);
-    font-size: 16px;
-    color: var(--body);
-  }
-
-  /* ── Section primitives ─────────────────── */
-  .section { margin: var(--space-xl) 0; }
+  /* ── Sections ────────────────────────────────────────── */
+  .section { margin: var(--space-xxl) 0; }
   .section-head {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     gap: var(--space-base);
-    margin-bottom: var(--space-base);
+    margin-bottom: var(--space-lg);
   }
   .section-title {
     font-size: 22px;
-    font-weight: 600;
-    line-height: 1.2;
+    font-weight: 700;
     letter-spacing: -0.44px;
     color: var(--ink);
+    line-height: 1.2;
   }
   .section-meta {
     font-size: 13px;
@@ -169,13 +154,12 @@
     flex-shrink: 0;
   }
 
-  /* ── Plant card grid ────────────────────── */
+  /* ── Plant grid ──────────────────────────────────────── */
   .grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--space-sm);
   }
-
   .plant-card {
     display: block;
     color: var(--ink);
@@ -212,8 +196,6 @@
     align-items: center;
     gap: 3px;
   }
-
-  /* ── Scene fan layout (inner wrapper) ──── */
   .scene-fan {
     display: flex;
     flex-wrap: wrap;
@@ -226,11 +208,9 @@
   }
   .scene-fan span { width: 28px; text-align: center; }
 
-  /* ── QR chip overlay on card photo ─────── */
   .qr-chip {
     position: absolute;
-    bottom: var(--space-xs);
-    right: var(--space-xs);
+    bottom: var(--space-xs); right: var(--space-xs);
     background: rgba(255,255,255,0.92);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
@@ -247,13 +227,12 @@
     align-items: center;
     gap: 3px;
     z-index: 1;
+    transition: background 0.15s;
   }
   .qr-chip:hover { background: var(--canvas); }
 
-  /* Photo backgrounds — one gradient per plant */
   .bg-cayenne {
-    background:
-      radial-gradient(120% 80% at 30% 20%, #ffe5eb 0%, #ffd1da 38%, #ff8aa6 70%, #ff385c 100%);
+    background: radial-gradient(120% 80% at 30% 20%, #ffe5eb 0%, #ffd1da 38%, #ff8aa6 70%, #ff385c 100%);
   }
 
   .plant-meta { margin-top: var(--space-sm); }
@@ -263,36 +242,185 @@
     justify-content: space-between;
     gap: var(--space-xs);
   }
-  .plant-title {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--ink);
-    line-height: 1.25;
-  }
-  .plant-subtitle {
-    margin-top: 2px;
-    font-size: 11px;
-    color: var(--muted);
-    line-height: 1.3;
-  }
-  .plant-tag {
-    font-size: 11px;
-    color: var(--muted);
-    flex-shrink: 0;
-  }
+  .plant-title   { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.25; }
+  .plant-subtitle { margin-top: 2px; font-size: 11px; color: var(--muted); line-height: 1.3; }
+  .plant-tag     { font-size: 11px; color: var(--muted); flex-shrink: 0; }
+  .plant-stats   { margin-top: 3px; font-size: 10px; color: var(--muted-soft); line-height: 1.3; min-height: 13px; }
 
-  /* ── Empty / coming soon hint ───────────── */
-  .placeholder {
-    margin-top: var(--space-base);
-    padding: var(--space-base);
-    border: 1px dashed var(--hairline);
+  /* ── Stat cards ──────────────────────────────────────── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+  }
+  .stat-card {
+    background: var(--surface-soft);
     border-radius: var(--r-md);
-    text-align: center;
-    font-size: 13px;
+    padding: var(--space-base) var(--space-lg);
+  }
+  .stat-card-top {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--hairline-soft);
+    margin-bottom: var(--space-md);
+  }
+  .stat-card-name { font-size: 14px; font-weight: 600; color: var(--ink); flex: 1; }
+  .stat-card-sub  { font-size: 12px; color: var(--muted); font-weight: 400; }
+  .stat-body {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-xl);
+  }
+  .stat-num-block { display: flex; flex-direction: column; }
+  .stat-number {
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .stat-number-label {
+    font-size: 11px;
     color: var(--muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    font-weight: 600;
+  }
+  .stat-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-bottom: 2px;
+  }
+  .stat-devices {
+    display: flex;
+    gap: var(--space-md);
+    font-size: 12px;
+    color: var(--body);
+  }
+  .stat-device-item { display: flex; align-items: center; gap: 4px; }
+  .stat-last { font-size: 12px; color: var(--muted); }
+
+  /* ── QR section ──────────────────────────────────────── */
+  .field-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    margin-bottom: var(--space-xs);
+  }
+  .text-input {
+    width: 100%;
+    background: var(--canvas);
+    color: var(--ink);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-sm);
+    padding: 12px var(--space-md);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.4;
+    transition: border-color 0.15s, border-width 0.15s;
+  }
+  .text-input:focus {
+    outline: none;
+    border-color: var(--ink);
+    border-width: 2px;
+    padding: 11px calc(var(--space-md) - 1px);
   }
 
-  /* ── Footer ─────────────────────────────── */
+  .qr-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-base);
+    margin-top: var(--space-base);
+  }
+  .qr-item {
+    background: var(--canvas);
+    border: 1px solid var(--hairline-soft);
+    border-radius: var(--r-md);
+    padding: var(--space-base);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: var(--shadow-card);
+    transition: border-color 0.2s, border-width 0.2s;
+  }
+  .qr-item.highlighted {
+    border-color: var(--primary);
+    border-width: 2px;
+    padding: calc(var(--space-base) - 1px);
+  }
+  .qr-item-img {
+    display: block;
+    width: 100%;
+    max-width: 140px;
+    aspect-ratio: 1;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    border-radius: var(--r-sm);
+  }
+  .qr-item-name { font-size: 13px; font-weight: 600; color: var(--ink); margin-top: var(--space-sm); text-align: center; line-height: 1.3; }
+  .qr-item-sub  { font-size: 11px; color: var(--muted); margin-top: 2px; text-align: center; }
+  .qr-item-url  {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 9px;
+    color: var(--muted-soft);
+    word-break: break-all;
+    text-align: center;
+    margin-top: var(--space-sm);
+    line-height: 1.5;
+  }
+  .qr-item-btns {
+    display: flex;
+    gap: var(--space-xs);
+    margin-top: var(--space-sm);
+    width: 100%;
+  }
+  .qr-btn {
+    flex: 1;
+    height: 34px;
+    border-radius: var(--r-sm);
+    border: 1px solid var(--hairline);
+    background: var(--canvas);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    transition: background 0.15s;
+  }
+  .qr-btn:hover { background: var(--surface-soft); }
+  .qr-btn.primary { background: var(--primary); color: var(--canvas); border-color: transparent; }
+  .qr-btn.primary:hover { background: var(--primary-active); }
+
+  /* ── Toast ───────────────────────────────────────────── */
+  .toast {
+    position: fixed;
+    left: 50%; bottom: 24px;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink);
+    color: var(--canvas);
+    border-radius: var(--r-full);
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+    z-index: 100;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ── Footer ──────────────────────────────────────────── */
   footer {
     margin-top: var(--space-xxl);
     padding: var(--space-xl) 0 var(--space-xxl);
@@ -303,50 +431,36 @@
     line-height: 1.4;
   }
 
-  /* ── Reveal ─────────────────────────────── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-  }
-  .reveal.in {
-    opacity: 1;
-    transform: none;
-  }
+  /* ── Reveal ──────────────────────────────────────────── */
+  .reveal { opacity: 0; transform: translateY(8px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .reveal.in { opacity: 1; transform: none; }
 
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.001ms !important;
-      transition-duration: 0.001ms !important;
-    }
+    *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
     .reveal { opacity: 1; transform: none; }
     html { scroll-behavior: auto; }
   }
 
-  /* ── Responsive ─────────────────────────── */
+  /* ── Responsive ──────────────────────────────────────── */
   @media (min-width: 600px) {
-    .container { padding: 0 var(--space-xl); max-width: 720px; }
-    .grid { gap: var(--space-base); }
-    .plant-photo .scene { font-size: 90px; }
-    .scene-fan { font-size: 38px; width: 84px; gap: 4px; }
-    .scene-fan span { width: 40px; }
-    .plant-photo .badge { top: var(--space-sm); left: var(--space-sm); padding: 4px 9px; font-size: 11px; }
-    .qr-chip { bottom: var(--space-sm); right: var(--space-sm); padding: 4px 9px; font-size: 11px; }
+    .container { max-width: 720px; padding: 0 var(--space-xl); }
+    .grid { grid-template-columns: repeat(3, 1fr); gap: var(--space-base); }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .qr-grid { grid-template-columns: repeat(3, 1fr); }
+    .plant-photo .scene { font-size: 80px; }
+    .scene-fan { font-size: 34px; width: 74px; }
+    .scene-fan span { width: 36px; }
     .plant-title { font-size: 14px; }
     .plant-subtitle { font-size: 12px; }
-    .plant-tag { font-size: 12px; }
   }
   @media (min-width: 960px) {
     .container { max-width: 960px; }
     .grid { grid-template-columns: repeat(4, 1fr); }
-    .plant-photo .scene { font-size: 110px; }
-    .scene-fan { font-size: 44px; width: 96px; gap: 5px; }
-    .scene-fan span { width: 46px; }
-    .plant-photo .badge { top: var(--space-md); left: var(--space-md); padding: 5px 11px; font-size: 11px; }
-    .qr-chip { bottom: var(--space-md); right: var(--space-md); padding: 5px 10px; font-size: 11px; }
-    .plant-title { font-size: 16px; }
-    .plant-subtitle { font-size: 13px; }
-    .plant-tag { font-size: 13px; }
+    .qr-grid { grid-template-columns: repeat(4, 1fr); }
+    .plant-photo .scene { font-size: 96px; }
+    .scene-fan { font-size: 40px; width: 88px; }
+    .scene-fan span { width: 42px; }
+    .plant-title { font-size: 15px; }
   }
 </style>
 </head>
@@ -357,93 +471,326 @@
     <span class="brand">
       <span class="brand-orb" aria-hidden="true">🌶️</span>
       PlantCare
+      <span class="brand-tag">Admin</span>
     </span>
-    <span class="nav-count" id="plant-count">1 Guide</span>
+    <nav class="topnav-links" aria-label="Sektionen">
+      <a href="#plants">Pflanzen</a>
+      <a href="#stats">Statistiken</a>
+      <a href="#qr">QR-Codes</a>
+    </nav>
   </div>
 </header>
 
 <main class="container">
 
-  <section class="intro">
-    <h1>Deine Pflegeguides</h1>
-    <p>Eine kleine Bibliothek mit Pflege-Anleitungen — pro Pflanze ein Guide, jeder mit eigenem QR-Code.</p>
-    <a href="qr.html" class="qr-btn">
-      <span aria-hidden="true">⬛</span> QR-Codes ansehen
-    </a>
+  <section id="plants" class="section reveal">
+    <div class="section-head">
+      <h2 class="section-title">Pflanzen</h2>
+      <span class="section-meta" id="plant-count"></span>
+    </div>
+    <div class="grid" id="plant-grid"></div>
   </section>
 
-  <section class="section reveal">
+  <section id="stats" class="section reveal">
     <div class="section-head">
-      <h2 class="section-title">Alle Pflanzen</h2>
-      <span class="section-meta">Cards antippen zum Öffnen</span>
+      <h2 class="section-title">Statistiken</h2>
+      <span class="section-meta">Aufrufe der Guide-Seiten</span>
     </div>
+    <div class="stats-grid" id="stats-grid"></div>
+  </section>
 
-    <div class="grid">
-      <a class="plant-card" href="cayenne-peppers.html" aria-label="Cayenne Pepper Pflegeguide öffnen">
-        <div class="plant-photo bg-cayenne">
-          <div class="badge"><span aria-hidden="true">🌶️🌶️🌶️</span> scharf</div>
-          <div class="scene" aria-hidden="true"><div class="scene-fan"><span>🌶️</span><span>🌶️</span><span>🌶️</span></div></div>
-          <button class="qr-chip" aria-label="QR-Code öffnen" onclick="event.stopPropagation();location.href='qr.html?plant=cayenne-peppers.html'">⬛ QR</button>
-        </div>
-        <div class="plant-meta">
-          <div class="plant-title-row">
-            <span class="plant-title">Cayenne Pepper</span>
-            <span class="plant-tag">3 Setzlinge</span>
-          </div>
-          <div class="plant-subtitle">Anfängerfreundlich · sonnig · Terrakottatopf</div>
-        </div>
-      </a>
-
-      <a class="plant-card" href="cayenne-pepper.html" aria-label="Cayenne Pepper Anzucht Pflegeguide öffnen">
-        <div class="plant-photo bg-cayenne">
-          <div class="badge"><span aria-hidden="true">🌶️</span> scharf</div>
-          <div class="scene" aria-hidden="true">🌶️</div>
-          <button class="qr-chip" aria-label="QR-Code öffnen" onclick="event.stopPropagation();location.href='qr.html?plant=cayenne-pepper.html'">⬛ QR</button>
-        </div>
-        <div class="plant-meta">
-          <div class="plant-title-row">
-            <span class="plant-title">Cayenne Pepper</span>
-            <span class="plant-tag">1 Setzling</span>
-          </div>
-          <div class="plant-subtitle">Anfängerfreundlich · sonnig · Papier-Anzuchttopf</div>
-        </div>
-      </a>
+  <section id="qr" class="section reveal">
+    <div class="section-head">
+      <h2 class="section-title">QR-Codes</h2>
+      <span class="section-meta">Druckfertig · PNG</span>
     </div>
-
-    <div class="placeholder">
-      Weitere Pflegeguides folgen — pro Pflanze landet eine eigene Seite hier.
+    <div style="margin-bottom: var(--space-base)">
+      <label class="field-label" for="base-url">Basis-URL</label>
+      <input class="text-input" id="base-url" type="url" inputmode="url"
+             autocomplete="off" spellcheck="false"
+             value="https://hausblick.github.io/PlantCare/">
     </div>
+    <div class="qr-grid" id="qr-grid"></div>
   </section>
 
   <footer>
-    <p>PlantCare — Ein Service by Niko</p>
+    <p>PlantCare Admin — nur für Niko</p>
   </footer>
 
 </main>
 
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <script>
-  // Auto-update plant count from grid
-  const cards = document.querySelectorAll('.plant-card');
-  const countEl = document.getElementById('plant-count');
-  if (countEl && cards.length) {
-    countEl.textContent = cards.length === 1 ? '1 Guide' : cards.length + ' Guides';
+  // ─── Pflanzenliste — hier neue Pflanzen eintragen ────────
+  const PLANTS = [
+    {
+      file:     'cayenne-peppers.html',
+      name:     'Cayenne Pepper',
+      emojis:   ['🌶️','🌶️','🌶️'],
+      subtitle: 'Anfängerfreundlich · sonnig · Terrakottatopf',
+      tag:      '3 Setzlinge',
+      bg:       'bg-cayenne',
+    },
+    {
+      file:     'cayenne-pepper.html',
+      name:     'Cayenne Pepper',
+      emojis:   ['🌶️'],
+      subtitle: 'Anfängerfreundlich · sonnig · Papier-Anzuchttopf',
+      tag:      '1 Setzling',
+      bg:       'bg-cayenne',
+    },
+  ];
+
+  const SUPABASE_URL = 'https://frjmvszuncgbmqgfjcgz.supabase.co';
+  const ANON_KEY     = 'sb_publishable_htYoshV2Tb54M3q4XpLn7g_1Ih4Z9QJ';
+  const QR_API       = 'https://api.qrserver.com/v1/create-qr-code/';
+
+  // ─── Helpers ─────────────────────────────────────────────
+  function relTime(dateStr) {
+    const diff = (Date.now() - new Date(dateStr)) / 1000;
+    if (diff < 60)     return 'gerade eben';
+    if (diff < 3600)   return 'vor ' + Math.floor(diff / 60) + ' Min.';
+    if (diff < 86400)  return 'vor ' + Math.floor(diff / 3600) + ' Std.';
+    if (diff < 172800) return 'gestern';
+    return 'vor ' + Math.floor(diff / 86400) + ' Tagen';
+  }
+  function deviceLabel(t) {
+    return t === 'mobile' ? 'Handy' : t === 'tablet' ? 'Tablet' : 'Desktop';
+  }
+  function slugify(file) {
+    return file.replace(/[^a-z0-9]/g, '-');
   }
 
-  // Lightweight scroll-reveal
+  // ─── Toast ───────────────────────────────────────────────
+  let toastTimer;
+  function showToast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 1800);
+  }
+
+  // ─── Section 1: Pflanzen-Grid ────────────────────────────
+  function renderPlants() {
+    const grid = document.getElementById('plant-grid');
+    const countEl = document.getElementById('plant-count');
+    countEl.textContent = PLANTS.length + (PLANTS.length === 1 ? ' Guide' : ' Guides');
+
+    PLANTS.forEach(p => {
+      const fanHtml = p.emojis.length > 1
+        ? `<div class="scene-fan">${p.emojis.map(e => `<span>${e}</span>`).join('')}</div>`
+        : p.emojis[0];
+
+      const a = document.createElement('a');
+      a.className = 'plant-card';
+      a.href = p.file;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.setAttribute('aria-label', p.name + ' Guide öffnen');
+      a.innerHTML = `
+        <div class="plant-photo ${p.bg}">
+          <div class="badge">${p.emojis.join('')} scharf</div>
+          <div class="scene" aria-hidden="true">${fanHtml}</div>
+          <button class="qr-chip" aria-label="QR-Code anzeigen"
+            onclick="event.preventDefault();event.stopPropagation();scrollToQR('${p.file}')">⬛ QR</button>
+        </div>
+        <div class="plant-meta">
+          <div class="plant-title-row">
+            <span class="plant-title">${p.name}</span>
+            <span class="plant-tag">${p.tag}</span>
+          </div>
+          <div class="plant-subtitle">${p.subtitle}</div>
+          <div class="plant-stats" data-stats-page="${p.file}"></div>
+        </div>
+      `;
+      grid.appendChild(a);
+    });
+  }
+
+  // ─── Section 2: Statistiken ──────────────────────────────
+  function renderStatCards() {
+    const grid = document.getElementById('stats-grid');
+    PLANTS.forEach(p => {
+      const id = slugify(p.file);
+      const card = document.createElement('div');
+      card.className = 'stat-card';
+      card.innerHTML = `
+        <div class="stat-card-top">
+          <span>${p.emojis[0]}</span>
+          <span class="stat-card-name">${p.name}
+            <span class="stat-card-sub">${p.tag}</span>
+          </span>
+        </div>
+        <div class="stat-body">
+          <div class="stat-num-block">
+            <span class="stat-number" id="sn-${id}">—</span>
+            <span class="stat-number-label">Aufrufe</span>
+          </div>
+          <div class="stat-details">
+            <div class="stat-devices" id="sd-${id}"></div>
+            <div class="stat-last"    id="sl-${id}">Lade …</div>
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function loadStats() {
+    fetch(SUPABASE_URL + '/rest/v1/plantcare_page_views?select=page,device_type,viewed_at&order=viewed_at.desc', {
+      headers: { 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY }
+    })
+    .then(r => r.json())
+    .then(rows => {
+      const map = {};
+      rows.forEach(row => {
+        if (!map[row.page]) map[row.page] = { count: 0, devices: {}, last: null, lastDevice: null };
+        map[row.page].count++;
+        map[row.page].devices[row.device_type] = (map[row.page].devices[row.device_type] || 0) + 1;
+        if (!map[row.page].last) {
+          map[row.page].last       = row.viewed_at;
+          map[row.page].lastDevice = row.device_type;
+        }
+      });
+
+      PLANTS.forEach(p => {
+        const id = slugify(p.file);
+        const s  = map[p.file];
+        const numEl  = document.getElementById('sn-' + id);
+        const devEl  = document.getElementById('sd-' + id);
+        const lastEl = document.getElementById('sl-' + id);
+        const miniEl = document.querySelector(`[data-stats-page="${p.file}"]`);
+
+        if (!s) {
+          if (numEl)  numEl.textContent  = '0';
+          if (lastEl) lastEl.textContent = 'Noch kein Aufruf';
+          if (miniEl) miniEl.textContent = 'Noch kein Aufruf';
+          return;
+        }
+
+        if (numEl) numEl.textContent = s.count;
+
+        if (devEl) {
+          devEl.innerHTML = ['mobile','desktop','tablet']
+            .filter(d => s.devices[d])
+            .map(d => {
+              const icon = d === 'mobile' ? '📱' : d === 'desktop' ? '💻' : '⬛';
+              return `<span class="stat-device-item">${icon} ${s.devices[d]}</span>`;
+            }).join('');
+        }
+
+        if (lastEl && s.last) {
+          lastEl.textContent = 'Zuletzt: ' + relTime(s.last) + ' · ' + deviceLabel(s.lastDevice);
+        }
+
+        if (miniEl) {
+          miniEl.textContent =
+            s.count + (s.count === 1 ? ' Aufruf' : ' Aufrufe') +
+            ' · ' + relTime(s.last) +
+            ' · ' + deviceLabel(s.lastDevice);
+        }
+      });
+    })
+    .catch(() => {
+      document.querySelectorAll('.stat-last').forEach(el => el.textContent = 'Fehler beim Laden');
+      document.querySelectorAll('.stat-number').forEach(el => { if (el.textContent === '—') el.textContent = '—'; });
+    });
+  }
+
+  // ─── Section 3: QR-Codes ─────────────────────────────────
+  function getBase() {
+    return document.getElementById('base-url').value.trim().replace(/\/+$/, '');
+  }
+  function qrSrc(file, size) {
+    return QR_API + '?size=' + size + 'x' + size + '&margin=2&ecc=Q&data=' + encodeURIComponent(getBase() + '/' + file);
+  }
+
+  function renderQR() {
+    const grid = document.getElementById('qr-grid');
+
+    PLANTS.forEach(p => {
+      const item = document.createElement('div');
+      item.className = 'qr-item';
+      item.dataset.file = p.file;
+      item.innerHTML = `
+        <img class="qr-item-img" data-qr
+             src="${qrSrc(p.file, 300)}"
+             alt="QR-Code ${p.name}" width="140" height="140">
+        <div class="qr-item-name">${p.emojis.join('')} ${p.name}</div>
+        <div class="qr-item-sub">${p.tag}</div>
+        <div class="qr-item-url" data-url>${getBase()}/${p.file}</div>
+        <div class="qr-item-btns">
+          <button class="qr-btn primary" data-dl>⬇ PNG</button>
+          <button class="qr-btn"         data-cp>⧉ URL</button>
+        </div>
+      `;
+
+      item.querySelector('[data-dl]').addEventListener('click', () => {
+        const a = document.createElement('a');
+        a.href     = qrSrc(p.file, 1024);
+        a.download = 'qr-' + p.file.replace('.html', '') + '.png';
+        a.target   = '_blank';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        showToast('PNG geladen');
+      });
+
+      item.querySelector('[data-cp]').addEventListener('click', async () => {
+        const url = getBase() + '/' + p.file;
+        try { await navigator.clipboard.writeText(url); }
+        catch {
+          const ta = document.createElement('textarea');
+          ta.value = url;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          ta.remove();
+        }
+        showToast('URL kopiert');
+      });
+
+      grid.appendChild(item);
+    });
+
+    document.getElementById('base-url').addEventListener('input', () => {
+      document.querySelectorAll('.qr-item').forEach(item => {
+        item.querySelector('[data-qr]').src  = qrSrc(item.dataset.file, 300);
+        item.querySelector('[data-url]').textContent = getBase() + '/' + item.dataset.file;
+      });
+    });
+  }
+
+  // ─── Scroll to QR + kurz highlighten ─────────────────────
+  function scrollToQR(file) {
+    document.getElementById('qr').scrollIntoView({ behavior: 'smooth' });
+    document.querySelectorAll('.qr-item').forEach(el => {
+      el.classList.toggle('highlighted', el.dataset.file === file);
+    });
+    setTimeout(() => {
+      document.querySelectorAll('.qr-item.highlighted').forEach(el => el.classList.remove('highlighted'));
+    }, 2200);
+  }
+
+  // ─── Scroll reveal ────────────────────────────────────────
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('in');
-          io.unobserve(e.target);
-        }
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-
+    }, { threshold: 0.08, rootMargin: '0px 0px -4% 0px' });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
   } else {
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
   }
+
+  // ─── Init ─────────────────────────────────────────────────
+  renderPlants();
+  renderStatCards();
+  renderQR();
+  loadStats();
 </script>
 
 </body>
