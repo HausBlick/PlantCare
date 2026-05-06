@@ -27,6 +27,11 @@
   var css = [
     '.planty-fab{position:fixed;bottom:24px;right:24px;z-index:1000;width:56px;height:56px;border-radius:9999px;background:#ff385c;border:none;cursor:pointer;box-shadow:rgba(0,0,0,0.02) 0 0 0 1px,rgba(0,0,0,0.04) 0 2px 6px,rgba(0,0,0,0.12) 0 6px 20px;display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s;color:#fff;font-family:inherit}',
     '.planty-fab:hover{transform:scale(1.06);box-shadow:rgba(0,0,0,0.02) 0 0 0 1px,rgba(0,0,0,0.06) 0 4px 10px,rgba(0,0,0,0.16) 0 8px 28px}',
+    '.planty-tooltip{position:fixed;bottom:92px;right:24px;z-index:999;background:#fff;border-radius:16px;padding:12px 36px 12px 14px;box-shadow:rgba(0,0,0,0.02) 0 0 0 1px,rgba(0,0,0,0.06) 0 4px 12px,rgba(0,0,0,0.1) 0 8px 24px;max-width:220px;font-size:13px;line-height:1.45;color:#222;opacity:0;transform:translateY(8px) scale(.95);transition:opacity .3s ease,transform .3s ease;pointer-events:none;font-family:' + FONT + '}',
+    '.planty-tooltip.visible{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}',
+    '.planty-tooltip::after{content:"";position:absolute;bottom:-7px;right:22px;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:8px solid #fff}',
+    '.planty-tooltip-close{position:absolute;top:8px;right:8px;background:none;border:none;cursor:pointer;color:#929292;line-height:1;font-size:14px;padding:2px 4px;transition:color .15s}',
+    '.planty-tooltip-close:hover{color:#222}',
     '.planty-window{position:fixed;bottom:92px;right:24px;z-index:1000;width:370px;height:520px;background:#fff;border-radius:20px;box-shadow:rgba(0,0,0,0.02) 0 0 0 1px,rgba(0,0,0,0.04) 0 2px 6px,rgba(0,0,0,0.12) 0 8px 32px;display:flex;flex-direction:column;overflow:hidden;transform:scale(.95) translateY(12px);opacity:0;pointer-events:none;transition:transform .22s ease,opacity .22s ease}',
     '.planty-window.open{transform:scale(1) translateY(0);opacity:1;pointer-events:auto}',
     '.planty-header{background:#ff385c;color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0}',
@@ -80,8 +85,16 @@
       '<button class="planty-send" id="planty-send" disabled aria-label="Senden">&#x2191;</button>' +
     '</div>';
 
+  // ── Tooltip-Sprechblase ──────────────────────────────────
+  var tooltip = document.createElement('div');
+  tooltip.className = 'planty-tooltip';
+  tooltip.innerHTML =
+    '<button class="planty-tooltip-close" aria-label="Schließen">&#x2715;</button>' +
+    'Hi, ich bin Planty! &#x1FAB4; Ich helfe dir gerne bei Fragen zu ' + PLANT_LABEL + '.';
+
   document.body.appendChild(fab);
   document.body.appendChild(win);
+  document.body.appendChild(tooltip);
 
   var msgsEl     = document.getElementById('planty-msgs');
   var inputEl    = document.getElementById('planty-input');
@@ -100,11 +113,33 @@
     return v;
   }
 
+  // ── Tooltip-Logik ───────────────────────────────────────
+  var tooltipTimer;
+  function hideTooltip() {
+    clearTimeout(tooltipTimer);
+    tooltip.classList.remove('visible');
+  }
+  if (!localStorage.getItem('planty_opened')) {
+    tooltipTimer = setTimeout(function () {
+      tooltip.classList.add('visible');
+      tooltipTimer = setTimeout(hideTooltip, 7000);
+    }, 2000);
+  }
+  tooltip.querySelector('.planty-tooltip-close').addEventListener('click', function (e) {
+    e.stopPropagation();
+    hideTooltip();
+  });
+
   // ── Toggle ──────────────────────────────────────────────
   function toggle() {
     isOpen = !isOpen;
     win.classList.toggle('open', isOpen);
-    if (isOpen) { loadHistory(); setTimeout(function () { inputEl.focus(); }, 200); }
+    if (isOpen) {
+      hideTooltip();
+      localStorage.setItem('planty_opened', '1');
+      loadHistory();
+      setTimeout(function () { inputEl.focus(); }, 200);
+    }
   }
   fab.addEventListener('click', toggle);
   win.querySelector('.planty-close').addEventListener('click', toggle);
