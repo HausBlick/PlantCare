@@ -119,7 +119,7 @@
     clearTimeout(tooltipTimer);
     tooltip.classList.remove('visible');
   }
-  if (!localStorage.getItem('planty_opened')) {
+  if (!sessionStorage.getItem('planty_opened')) {
     tooltipTimer = setTimeout(function () {
       tooltip.classList.add('visible');
       tooltipTimer = setTimeout(hideTooltip, 7000);
@@ -136,7 +136,7 @@
     win.classList.toggle('open', isOpen);
     if (isOpen) {
       hideTooltip();
-      localStorage.setItem('planty_opened', '1');
+      sessionStorage.setItem('planty_opened', '1');
       loadHistory();
       setTimeout(function () { inputEl.focus(); }, 200);
     }
