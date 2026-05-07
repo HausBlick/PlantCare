@@ -234,6 +234,18 @@
   .bg-cayenne {
     background: radial-gradient(120% 80% at 30% 20%, #ffe5eb 0%, #ffd1da 38%, #ff8aa6 70%, #ff385c 100%);
   }
+  .bg-drachenbaum {
+    background: radial-gradient(120% 80% at 30% 20%, #d4edda 0%, #a8d5ba 38%, #52b788 70%, #2d6a4f 100%);
+  }
+  .bg-dieffenbachie {
+    background: radial-gradient(120% 80% at 30% 20%, #e8f5e9 0%, #c8e6c9 38%, #66bb6a 70%, #2e7d32 100%);
+  }
+  .bg-ficus {
+    background: radial-gradient(120% 80% at 30% 20%, #f9f3e3 0%, #e8d5a3 38%, #c4a35a 70%, #8b6914 100%);
+  }
+  .bg-bogenhanf {
+    background: radial-gradient(120% 80% at 30% 20%, #e8f5f0 0%, #a8d8c8 38%, #3d9e78 70%, #1a5c42 100%);
+  }
 
   .plant-meta { margin-top: var(--space-sm); }
   .plant-title-row {
@@ -579,6 +591,7 @@
       emojis:   ['🌶️','🌶️','🌶️'],
       subtitle: 'Anfängerfreundlich · sonnig · Terrakottatopf',
       tag:      '3 Setzlinge',
+      badge:    '🌶️ scharf',
       bg:       'bg-cayenne',
     },
     {
@@ -587,7 +600,40 @@
       emojis:   ['🌶️'],
       subtitle: 'Anfängerfreundlich · sonnig · Papier-Anzuchttopf',
       tag:      '1 Setzling',
+      badge:    '🌶️ scharf',
       bg:       'bg-cayenne',
+    },
+    {
+      file:     'drachenbaum.html',
+      name:     'Drachenbaum',
+      emojis:   ['🌴'],
+      subtitle: 'Pflegeleicht · indirektes Licht · Langzeitbewohner',
+      tag:      'Dracaena',
+      bg:       'bg-drachenbaum',
+    },
+    {
+      file:     'dieffenbachie.html',
+      name:     'Dieffenbachie',
+      emojis:   ['🌿'],
+      subtitle: 'Halbschatten · tropisch · große Blätter',
+      tag:      'Dieffenbachia',
+      bg:       'bg-dieffenbachie',
+    },
+    {
+      file:     'ficus-benjamini.html',
+      name:     'Ficus Benjamini',
+      emojis:   ['🌳'],
+      subtitle: 'Standorttreu · hell · eleganter Zimmerbaum',
+      tag:      'Ficus benjamina',
+      bg:       'bg-ficus',
+    },
+    {
+      file:     'bogenhanf.html',
+      name:     'Bogenhanf',
+      emojis:   ['🪴'],
+      subtitle: 'Nahezu unzerstörbar · Luftreiniger · Sukkulente',
+      tag:      'Sansevieria',
+      bg:       'bg-bogenhanf',
     },
   ];
 
@@ -640,7 +686,7 @@
       a.setAttribute('aria-label', p.name + ' Guide öffnen');
       a.innerHTML = `
         <div class="plant-photo ${p.bg}">
-          <div class="badge">${p.emojis.join('')} scharf</div>
+          <div class="badge">${p.emojis.join('')} ${p.badge || 'Pflegeguide'}</div>
           <div class="scene" aria-hidden="true">${fanHtml}</div>
           <button class="qr-chip" aria-label="QR-Code anzeigen"
             onclick="event.preventDefault();event.stopPropagation();scrollToQR('${p.file}')">⬛ QR</button>
