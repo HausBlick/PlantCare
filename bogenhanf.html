@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>Dein Bogenhanf — Pflegeguide</title>
+<meta name="description" content="Pflegeanleitung für einen eingetopften Bogenhanf (Sansevieria). Gießen, Licht, Pflege und Tipps für die robusteste Zimmerpflanze.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --primary:        #ff385c;
+    --primary-active: #e00b41;
+    --ink:            #222222;
+    --body:           #3f3f3f;
+    --muted:          #6a6a6a;
+    --muted-soft:     #929292;
+    --hairline:       #dddddd;
+    --hairline-soft:  #ebebeb;
+    --canvas:         #ffffff;
+    --surface-soft:   #f7f7f7;
+    --surface-strong: #f2f2f2;
+    --on-primary:     #ffffff;
+
+    --shadow-card:
+      rgba(0,0,0,0.02) 0 0 0 1px,
+      rgba(0,0,0,0.04) 0 2px 6px 0,
+      rgba(0,0,0,0.10) 0 4px 8px 0;
+
+    --r-sm:   8px;
+    --r-md:  14px;
+    --r-lg:  20px;
+    --r-xl:  32px;
+    --r-full: 9999px;
+
+    --space-xs:  4px;
+    --space-sm:  8px;
+    --space-md: 12px;
+    --space-base:16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-xxl:48px;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', 'Airbnb Cereal VF', Circular, -apple-system, system-ui, Roboto, "Helvetica Neue", sans-serif;
+    background: var(--canvas);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+  }
+
+  .topnav {
+    height: 64px;
+    border-bottom: 1px solid var(--hairline);
+    background: rgba(255,255,255,0.92);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: saturate(180%) blur(10px);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
+  }
+  .topnav-inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.1px;
+  }
+  .brand-orb {
+    width: 28px; height: 28px;
+    border-radius: var(--r-full);
+    background: var(--primary);
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    font-size: 14px;
+    line-height: 1;
+  }
+  .nav-tag {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    background: var(--surface-strong);
+    border-radius: var(--r-full);
+    padding: 4px 10px;
+  }
+
+  .hero { margin: var(--space-lg) 0 var(--space-xl); }
+
+  .hero-photo {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background:
+      radial-gradient(120% 80% at 30% 20%, #e8f5f0 0%, #a8d8c8 38%, #3d9e78 70%, #1a5c42 100%);
+    box-shadow: var(--shadow-card);
+  }
+  .hero-photo .scene {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 150px;
+    line-height: 1;
+    filter: drop-shadow(0 14px 28px rgba(0,0,0,0.20));
+    transform: translateY(2%);
+  }
+  .hero-photo .badge {
+    position: absolute;
+    top: var(--space-base); left: var(--space-base);
+    background: var(--canvas);
+    color: var(--ink);
+    border-radius: var(--r-full);
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    box-shadow: var(--shadow-card);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .hero-text { margin-top: var(--space-lg); }
+  .hero-text h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.18;
+    letter-spacing: -0.4px;
+    color: var(--ink);
+  }
+  .hero-text p {
+    margin-top: var(--space-md);
+    font-size: 16px;
+    color: var(--body);
+    line-height: 1.5;
+  }
+
+  .hero-meta {
+    margin-top: var(--space-base);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .dot {
+    width: 3px; height: 3px;
+    border-radius: var(--r-full);
+    background: var(--muted-soft);
+    display: inline-block;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: var(--space-lg);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-md);
+    padding: var(--space-base) var(--space-sm);
+    background: var(--canvas);
+  }
+  .stat { text-align: center; padding: 4px 6px; }
+  .stat + .stat { border-left: 1px solid var(--hairline-soft); }
+  .stat-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.18px;
+    line-height: 1.2;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+    line-height: 1.2;
+  }
+
+  .section { margin: var(--space-xl) 0; }
+
+  .section-eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.32px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: var(--space-sm);
+  }
+  .section-title {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.44px;
+    color: var(--ink);
+  }
+  .section-sub {
+    margin-top: var(--space-sm);
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.43;
+  }
+
+  .setup-card {
+    margin-top: var(--space-base);
+    background: var(--surface-soft);
+    border-radius: var(--r-md);
+    padding: var(--space-base);
+    display: flex;
+    gap: var(--space-base);
+    align-items: center;
+  }
+  .setup-icon {
+    width: 48px; height: 48px;
+    border-radius: var(--r-full);
+    background: var(--canvas);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    line-height: 1;
+  }
+  .setup-text h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .setup-text p {
+    margin-top: 4px;
+    font-size: 14px;
+    color: var(--body);
+    line-height: 1.45;
+  }
+
+  .cards { display: grid; gap: var(--space-md); margin-top: var(--space-base); }
+
+  .care-card {
+    background: var(--canvas);
+    border: 1px solid var(--hairline-soft);
+    border-radius: var(--r-md);
+    padding: var(--space-base);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .care-card:active {
+    transform: scale(0.995);
+    box-shadow: var(--shadow-card);
+  }
+  .care-card-head {
+    display: flex; align-items: center; gap: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+  .care-icon {
+    width: 44px; height: 44px;
+    border-radius: var(--r-full);
+    background: var(--surface-strong);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .care-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .care-card .freq {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 2px;
+    line-height: 1.2;
+  }
+  .care-card p {
+    font-size: 14px;
+    color: var(--body);
+    line-height: 1.5;
+  }
+  .hint {
+    margin-top: var(--space-md);
+    background: var(--surface-soft);
+    border-radius: var(--r-sm);
+    padding: var(--space-md);
+    font-size: 13px;
+    color: var(--body);
+    line-height: 1.45;
+    display: flex;
+    gap: var(--space-sm);
+    align-items: flex-start;
+  }
+  .hint-emoji { flex-shrink: 0; font-size: 16px; line-height: 1.2; }
+  .hint strong { color: var(--ink); font-weight: 600; }
+
+  .timeline {
+    margin-top: var(--space-base);
+    position: relative;
+    padding-left: 28px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 9px; top: 6px; bottom: 6px;
+    width: 2px;
+    background: var(--hairline);
+    border-radius: var(--r-full);
+  }
+  .timeline-item { position: relative; padding-bottom: var(--space-lg); }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -23px; top: 4px;
+    width: 12px; height: 12px;
+    border-radius: var(--r-full);
+    background: var(--primary);
+    box-shadow: 0 0 0 4px var(--canvas), 0 0 0 5px var(--primary);
+  }
+  .timeline-when {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.32px;
+    text-transform: uppercase;
+    color: var(--primary);
+  }
+  .timeline-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-top: 4px;
+    line-height: 1.25;
+  }
+  .timeline-body {
+    font-size: 14px;
+    color: var(--body);
+    line-height: 1.5;
+    margin-top: 6px;
+  }
+  .timeline-body strong { color: var(--ink); font-weight: 600; }
+
+  .tips { margin-top: var(--space-base); }
+  .tip { border-bottom: 1px solid var(--hairline-soft); }
+  .tip:first-child { border-top: 1px solid var(--hairline-soft); }
+  .tip-toggle {
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-base) 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-base);
+    font-family: inherit;
+    text-align: left;
+    color: var(--ink);
+  }
+  .tip-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex: 1;
+    min-width: 0;
+  }
+  .tip-emoji { font-size: 22px; line-height: 1; flex-shrink: 0; }
+  .tip-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .tip-chevron {
+    width: 24px; height: 24px;
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    color: var(--muted);
+    transition: transform 0.25s ease;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .tip[aria-expanded="true"] .tip-chevron { transform: rotate(180deg); }
+  .tip-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .tip-content-inner {
+    padding: 0 0 var(--space-base) 46px;
+    font-size: 14px;
+    color: var(--body);
+    line-height: 1.5;
+  }
+
+  footer {
+    margin-top: var(--space-xxl);
+    padding: var(--space-xl) 0 var(--space-xxl);
+    border-top: 1px solid var(--hairline);
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  footer p + p { margin-top: 6px; }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+    .reveal { opacity: 1; transform: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  @media (min-width: 600px) {
+    .container { padding: 0 var(--space-xl); }
+  }
+</style>
+
+<meta name="planty-context" content="einem eingetopften Bogenhanf (Sansevieria trifasciata) — nahezu unverwüstliche Sukkulente, Luftreiniger, ideal für Vergessliche">
+<meta name="planty-label"   content="Bogenhanf">
+</head>
+<body>
+
+<header class="topnav">
+  <div class="container topnav-inner">
+    <span class="brand">
+      <span class="brand-orb" aria-hidden="true">🪴</span>
+      PlantCare
+    </span>
+    <span class="nav-tag">Bogenhanf</span>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- Hero -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-photo">
+      <div class="badge"><span aria-hidden="true">💪</span> Nahezu unzerstörbar</div>
+      <div class="scene" aria-hidden="true">🪴</div>
+    </div>
+
+    <div class="hero-text">
+      <h1 id="hero-title">Die härteste Pflanze, die du je hattest</h1>
+      <p>Der Bogenhanf ist die Zimmerpflanze für alle, die sich als schlechte Pfleger bezeichnen — denn er überlebt Wochen ohne Wasser, halbdunkle Ecken und vergessene Wintermonate. Fast. Er hat nur eine echte Schwäche.</p>
+      <div class="hero-meta">
+        <span>Sansevieria trifasciata</span>
+        <span class="dot" aria-hidden="true"></span>
+        <span>Sukkulente</span>
+        <span class="dot" aria-hidden="true"></span>
+        <span>Luftreiniger</span>
+      </div>
+    </div>
+
+    <div class="stats" aria-label="Pflege-Übersicht">
+      <div class="stat">
+        <div class="stat-value">alle&nbsp;3–4W</div>
+        <div class="stat-label">Gießen</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">egal</div>
+        <div class="stat-label">Licht</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">10–35&nbsp;°C</div>
+        <div class="stat-label">Temperatur</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Setup -->
+  <section class="section reveal">
+    <div class="section-eyebrow">Aktuelles Setup</div>
+    <h2 class="section-title">Eingetopft — ab jetzt fast auf Autopilot</h2>
+
+    <div class="setup-card">
+      <div class="setup-icon" aria-hidden="true">🪴</div>
+      <div class="setup-text">
+        <h3>Eingetopft & startklar</h3>
+        <p>Dein Bogenhanf ist versorgt. Jetzt einfach einen Platz suchen — und dann in Ruhe lassen. Wirklich. <strong>Das Wichtigste ist, ihn nicht zu überwässern.</strong> Das ist seine einzige echte Schwäche.</p>
+        <p>Er reinigt aktiv die Luft in deinem Raum und produziert nachts sogar Sauerstoff — ideal fürs Schlafzimmer.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Daily Care -->
+  <section class="section reveal">
+    <div class="section-eyebrow">Tägliche Pflege</div>
+    <h2 class="section-title">Weniger ist mehr — wirklich</h2>
+    <p class="section-sub">Der Bogenhanf liebt es, wenn man ihn in Ruhe lässt.</p>
+
+    <div class="cards">
+      <article class="care-card">
+        <div class="care-card-head">
+          <div class="care-icon" aria-hidden="true">💧</div>
+          <div>
+            <h3>Wasser</h3>
+            <div class="freq">Alle 3–4 Wochen — Erde komplett trocken lassen</div>
+          </div>
+        </div>
+        <p>Der Bogenhanf speichert Wasser in seinen dicken Blättern wie eine Sukkulente. Die Erde muss zwischen den Güssen <strong>vollständig austrocknen</strong> — finger tief in die Erde stecken und erst dann gießen, wenn es sich knochentrocknen anfühlt.</p>
+        <div class="hint">
+          <span class="hint-emoji" aria-hidden="true">☠️</span>
+          <span><strong>Überwässern ist der einzige echte Killer.</strong> Zu viel Wasser führt zu Wurzelfäule — und die ist meist nicht mehr zu retten. Im Zweifel: lieber eine Woche länger warten. Der Bogenhanf überlebt Trockenheit problemlos, nasse Wurzeln nicht.</span>
+        </div>
+      </article>
+
+      <article class="care-card">
+        <div class="care-card-head">
+          <div class="care-icon" aria-hidden="true">🌓</div>
+          <div>
+            <h3>Licht</h3>
+            <div class="freq">Toleriert alles — von Schatten bis Sonne</div>
+          </div>
+        </div>
+        <p>Einer der wenigen Pflanzen, die wirklich jeden Standort akzeptieren — halbdunkle Ecke, helles Büro, direktes Fensterlicht. Überall wächst er, wenn auch unterschiedlich schnell.</p>
+        <div class="hint">
+          <span class="hint-emoji" aria-hidden="true">☀️</span>
+          <span><strong>Mit mehr Licht wächst er schneller</strong> und behält seine Zeichnung lebhafter. Im Schatten überlebt er, wird aber langsamer und blasser. Helles indirektes Licht ist sein sweet spot.</span>
+        </div>
+      </article>
+
+      <article class="care-card">
+        <div class="care-card-head">
+          <div class="care-icon" aria-hidden="true">🌡️</div>
+          <div>
+            <h3>Temperatur</h3>
+            <div class="freq">Sehr tolerant — nur keine Kälte unter 10 °C</div>
+          </div>
+        </div>
+        <p>Der Bogenhanf kommt mit nahezu jedem Zimmerklima zurecht. Die einzige Grenze nach unten: <strong>nicht unter 10 °C dauerhaft</strong>, sonst leidet er.</p>
+        <div class="hint">
+          <span class="hint-emoji" aria-hidden="true">❄️</span>
+          <span><strong>Im Winter draußen stehen lassen ist tabu.</strong> Frostempfindlich — ein einziger Frosttag kann ihn dauerhaft schädigen. Drinnen ist er aber absolut winterhart.</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Milestones -->
+  <section class="section reveal">
+    <div class="section-eyebrow">Pflegeroutine</div>
+    <h2 class="section-title">So bleibt er jahrelang fit</h2>
+    <p class="section-sub">Minimalaufwand, maximale Wirkung.</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-when">Frühling & Sommer</div>
+        <div class="timeline-title"><span aria-hidden="true">🌱</span> Optional düngen</div>
+        <p class="timeline-body">Wer möchte, kann alle 6–8 Wochen einen Kaktus- oder Sukkulentendünger geben. Es ist kein Muss — der Bogenhanf kommt auch ohne aus. Aber mit Dünger wächst er etwas schneller und kräftiger.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-when">Herbst & Winter</div>
+        <div class="timeline-title"><span aria-hidden="true">😴</span> Fast komplett ruhen lassen</div>
+        <p class="timeline-body">Im Winter auf <strong>1x pro Monat oder seltener</strong> reduzieren. Kein Dünger. Der Bogenhanf schläft — und das ist gut so. Jetzt zu viel Wasser ist die häufigste Winterkatastrophe.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-when">Alle 3–5 Jahre</div>
+        <div class="timeline-title"><span aria-hidden="true">🪴</span> Umtopfen — oder teilen</div>
+        <p class="timeline-body">Wenn Ableger (kleine Schösslinge) aus der Erde kommen oder die Pflanze den Topf sprengt, ist es Zeit. <strong>Töpfe mit Abzugsloch wählen</strong> — wichtiger als die Topfgröße. Beim Teilen einfach die Ableger mit Wurzeln abtrennen und separat einpflanzen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pro Tipps -->
+  <section class="section reveal">
+    <div class="section-eyebrow">Pro-Tipps</div>
+    <h2 class="section-title">Das Beste aus deinem Bogenhanf herausholen</h2>
+    <p class="section-sub">Tippen zum Aufklappen.</p>
+
+    <div class="tips">
+      <div class="tip" aria-expanded="false">
+        <button class="tip-toggle" aria-controls="tip-1" aria-expanded="false">
+          <span class="tip-label">
+            <span class="tip-emoji" aria-hidden="true">😮‍💨</span>
+            <span class="tip-title">Echter Luftreiniger — kein Marketing</span>
+          </span>
+          <span class="tip-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="tip-content" id="tip-1" role="region">
+          <div class="tip-content-inner">
+            NASA-Studien haben bestätigt: Der Bogenhanf filtert aktiv Schadstoffe wie Formaldehyd, Benzol und Stickstoffdioxid aus der Luft. Und er ist eine der wenigen Pflanzen, die nachts Sauerstoff produzieren statt CO₂ abzugeben — ideal fürs Schlaf- oder Arbeitszimmer.
+          </div>
+        </div>
+      </div>
+
+      <div class="tip" aria-expanded="false">
+        <button class="tip-toggle" aria-controls="tip-2" aria-expanded="false">
+          <span class="tip-label">
+            <span class="tip-emoji" aria-hidden="true">🟡</span>
+            <span class="tip-title">Weiche, gelbe Blätter — das ist Alarm</span>
+          </span>
+          <span class="tip-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="tip-content" id="tip-2" role="region">
+          <div class="tip-content-inner">
+            Gelb und weich bedeutet fast immer: zu viel Wasser und beginnende Wurzelfäule. Sofort aus dem Topf, die nassen/faulen Wurzeln wegschneiden, neue trockene Erde verwenden und für ein paar Tage gar nicht gießen. Wenn die Erde noch nicht faul riecht, kann man die Pflanze meist noch retten.
+          </div>
+        </div>
+      </div>
+
+      <div class="tip" aria-expanded="false">
+        <button class="tip-toggle" aria-controls="tip-3" aria-expanded="false">
+          <span class="tip-label">
+            <span class="tip-emoji" aria-hidden="true">🌿</span>
+            <span class="tip-title">Einfach vermehren — aus einem mach viele</span>
+          </span>
+          <span class="tip-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="tip-content" id="tip-3" role="region">
+          <div class="tip-content-inner">
+            Ableger (Rhizomtriebe) einfach mit den Wurzeln abtrennen und einzeln einpflanzen — fertig. Alternativ: Ein Blatt abschneiden, in Stücke von 5–8 cm teilen und aufrecht in feuchte Erde stecken. Nach ein paar Wochen bilden sich Wurzeln. Achtung: Ableger aus Blattstecklingen verlieren die gelbe Randzeichnung der Muttersorte.
+          </div>
+        </div>
+      </div>
+
+      <div class="tip" aria-expanded="false">
+        <button class="tip-toggle" aria-controls="tip-4" aria-expanded="false">
+          <span class="tip-label">
+            <span class="tip-emoji" aria-hidden="true">⚠️</span>
+            <span class="tip-title">Leicht giftig für Haustiere</span>
+          </span>
+          <span class="tip-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="tip-content" id="tip-4" role="region">
+          <div class="tip-content-inner">
+            Der Bogenhanf enthält Saponine — für Menschen harmlos, bei Haustieren (Hund, Katze) können größere Mengen Erbrechen und Magen-Darm-Beschwerden verursachen. Für Tiere, die gerne an Pflanzen kauen, lieber außer Reichweite stellen.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Mit <span aria-hidden="true">🪴</span> verschenkt</p>
+    <p>Die härteste Pflanze in besten Händen!</p>
+  </footer>
+
+</main>
+
+<script>
+  const tips = document.querySelectorAll('.tip');
+  tips.forEach(tip => {
+    const btn = tip.querySelector('.tip-toggle');
+    const content = tip.querySelector('.tip-content');
+
+    btn.addEventListener('click', () => {
+      const isOpen = tip.getAttribute('aria-expanded') === 'true';
+
+      tips.forEach(other => {
+        if (other !== tip) {
+          other.setAttribute('aria-expanded', 'false');
+          other.querySelector('.tip-toggle').setAttribute('aria-expanded', 'false');
+          other.querySelector('.tip-content').style.maxHeight = '0px';
+        }
+      });
+
+      tip.setAttribute('aria-expanded', String(!isOpen));
+      btn.setAttribute('aria-expanded', String(!isOpen));
+      content.style.maxHeight = isOpen ? '0px' : content.scrollHeight + 'px';
+    });
+  });
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+</script>
+
+<script>
+(function() {
+  var SUPABASE_URL = 'https://frjmvszuncgbmqgfjcgz.supabase.co';
+  var ANON_KEY = 'sb_publishable_htYoshV2Tb54M3q4XpLn7g_1Ih4Z9QJ';
+  var PAGE = 'bogenhanf.html';
+
+  var ua = navigator.userAgent;
+
+  function deviceType(u) {
+    if (/tablet|ipad|playbook|silk/i.test(u)) return 'tablet';
+    if (/mobile|iphone|ipod|android|blackberry/i.test(u)) return 'mobile';
+    return 'desktop';
+  }
+  function getBrowser(u) {
+    if (/edg\//i.test(u))       return 'Edge';
+    if (/opr|opera/i.test(u))   return 'Opera';
+    if (/chrome/i.test(u))      return 'Chrome';
+    if (/firefox/i.test(u))     return 'Firefox';
+    if (/safari/i.test(u))      return 'Safari';
+    return 'Other';
+  }
+  function getOS(u) {
+    if (/windows nt/i.test(u))         return 'Windows';
+    if (/android/i.test(u))            return 'Android';
+    if (/iphone|ipad|ipod/i.test(u))   return 'iOS';
+    if (/mac os x/i.test(u))           return 'macOS';
+    if (/linux/i.test(u))              return 'Linux';
+    return 'Other';
+  }
+
+  var visitorId   = localStorage.getItem('plantcare_vid');
+  var isReturning = !!visitorId;
+  if (!visitorId) {
+    visitorId = 'v' + Math.random().toString(36).slice(2, 9) + Date.now().toString(36);
+    localStorage.setItem('plantcare_vid', visitorId);
+  }
+
+  var data = {
+    page:         PAGE,
+    device_type:  deviceType(ua),
+    user_agent:   ua,
+    browser:      getBrowser(ua),
+    os:           getOS(ua),
+    referrer:     document.referrer || null,
+    screen:       window.screen.width + 'x' + window.screen.height,
+    language:     navigator.language || null,
+    timezone:     (Intl && Intl.DateTimeFormat) ? Intl.DateTimeFormat().resolvedOptions().timeZone : null,
+    visitor_id:   visitorId,
+    is_returning: isReturning,
+  };
+
+  function send(extra) {
+    fetch(SUPABASE_URL + '/rest/v1/plantcare_page_views', {
+      method: 'POST',
+      headers: {
+        'apikey': ANON_KEY,
+        'Authorization': 'Bearer ' + ANON_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(Object.assign({}, data, extra || {}))
+    });
+  }
+
+  fetch('https://ipapi.co/json/')
+    .then(function(r) { return r.json(); })
+    .then(function(g) { send({ country: g.country_name || null, city: g.city || null }); })
+    .catch(function()  { send(); });
+})();
+</script>
+
+<script src="planty.js"></script>
+
+</body>
+</html>
