@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>Cayenne Anzucht — Von Samen zur Schote</title>
+<meta name="description" content="Kompletter Anzucht-Guide für Cayenne Pepper. Aussaatzeit, Erde, Töpfe, Pikieren und alle Tipps bis zur scharfen Ernte.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --primary:        #ff385c;
+    --primary-active: #e00b41;
+    --ink:            #222222;
+    --body:           #3f3f3f;
+    --muted:          #6a6a6a;
+    --muted-soft:     #929292;
+    --hairline:       #dddddd;
+    --hairline-soft:  #ebebeb;
+    --canvas:         #ffffff;
+    --surface-soft:   #f7f7f7;
+    --surface-strong: #f2f2f2;
+    --on-primary:     #ffffff;
+
+    --shadow-card:
+      rgba(0,0,0,0.02) 0 0 0 1px,
+      rgba(0,0,0,0.04) 0 2px 6px 0,
+      rgba(0,0,0,0.10) 0 4px 8px 0;
+
+    --r-sm:   8px;
+    --r-md:  14px;
+    --r-lg:  20px;
+    --r-xl:  32px;
+    --r-full: 9999px;
+
+    --space-xs:  4px;
+    --space-sm:  8px;
+    --space-md: 12px;
+    --space-base:16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-xxl:48px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', 'Airbnb Cereal VF', Circular, -apple-system, system-ui, Roboto, "Helvetica Neue", sans-serif;
+    background: var(--canvas);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .container { max-width: 480px; margin: 0 auto; padding: 0 var(--space-lg); }
+
+  .topnav {
+    height: 64px;
+    border-bottom: 1px solid var(--hairline);
+    background: rgba(255,255,255,0.92);
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: saturate(180%) blur(10px);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
+  }
+  .topnav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: inline-flex; align-items: center; gap: var(--space-sm); font-size: 16px; font-weight: 600; color: var(--ink); letter-spacing: -0.1px; }
+  .brand-orb { width: 28px; height: 28px; border-radius: var(--r-full); background: var(--primary); display: inline-flex; align-items: center; justify-content: center; font-size: 14px; line-height: 1; }
+  .nav-tag { font-size: 11px; font-weight: 600; color: var(--muted); background: var(--surface-strong); border-radius: var(--r-full); padding: 4px 10px; }
+
+  .hero { margin: var(--space-lg) 0 var(--space-xl); }
+  .hero-photo {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background: radial-gradient(120% 80% at 30% 20%, #ffe5eb 0%, #ffd1da 38%, #ff8aa6 70%, #ff385c 100%);
+    box-shadow: var(--shadow-card);
+  }
+  .hero-photo .scene { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 150px; line-height: 1; filter: drop-shadow(0 14px 28px rgba(0,0,0,0.20)); transform: translateY(2%); }
+  .scene-fan { display: flex; flex-wrap: wrap; justify-content: center; align-content: center; width: 140px; gap: 6px; font-size: 64px; line-height: 1; }
+  .hero-photo .badge { position: absolute; top: var(--space-base); left: var(--space-base); background: var(--canvas); color: var(--ink); border-radius: var(--r-full); padding: 6px 12px; font-size: 11px; font-weight: 600; box-shadow: var(--shadow-card); display: inline-flex; align-items: center; gap: 6px; }
+
+  .hero-text { margin-top: var(--space-lg); }
+  .hero-text h1 { font-size: 28px; font-weight: 700; line-height: 1.18; letter-spacing: -0.4px; color: var(--ink); }
+  .hero-text p { margin-top: var(--space-md); font-size: 16px; color: var(--body); line-height: 1.5; }
+  .hero-meta { margin-top: var(--space-base); display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-sm); font-size: 14px; color: var(--muted); }
+  .dot { width: 3px; height: 3px; border-radius: var(--r-full); background: var(--muted-soft); display: inline-block; }
+
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: var(--space-lg); border: 1px solid var(--hairline); border-radius: var(--r-md); padding: var(--space-base) var(--space-sm); background: var(--canvas); }
+  .stat { text-align: center; padding: 4px 6px; }
+  .stat + .stat { border-left: 1px solid var(--hairline-soft); }
+  .stat-value { font-size: 18px; font-weight: 700; color: var(--ink); letter-spacing: -0.18px; line-height: 1.2; }
+  .stat-label { font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.2; }
+
+  .section { margin: var(--space-xl) 0; }
+  .section-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.32px; text-transform: uppercase; color: var(--primary); margin-bottom: var(--space-sm); }
+  .section-title { font-size: 22px; font-weight: 600; line-height: 1.2; letter-spacing: -0.44px; color: var(--ink); }
+  .section-sub { margin-top: var(--space-sm); font-size: 14px; color: var(--muted); line-height: 1.43; }
+
+  .cards { display: grid; gap: var(--space-md); margin-top: var(--space-base); }
+  .care-card { background: var(--canvas); border: 1px solid var(--hairline-soft); border-radius: var(--r-md); padding: var(--space-base); transition: box-shadow 0.2s ease, transform 0.2s ease; }
+  .care-card:active { transform: scale(0.995); box-shadow: var(--shadow-card); }
+  .care-card-head { display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-md); }
+  .care-icon { width: 44px; height: 44px; border-radius: var(--r-full); background: var(--surface-strong); display: flex; align-items: center; justify-content: center; font-size: 22px; line-height: 1; flex-shrink: 0; }
+  .care-card h3 { font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.25; }
+  .care-card .freq { font-size: 13px; color: var(--muted); margin-top: 2px; line-height: 1.2; }
+  .care-card p { font-size: 14px; color: var(--body); line-height: 1.5; }
+  .hint { margin-top: var(--space-md); background: var(--surface-soft); border-radius: var(--r-sm); padding: var(--space-md); font-size: 13px; color: var(--body); line-height: 1.45; display: flex; gap: var(--space-sm); align-items: flex-start; }
+  .hint-emoji { flex-shrink: 0; font-size: 16px; line-height: 1.2; }
+  .hint strong { color: var(--ink); font-weight: 600; }
+
+  .timeline { margin-top: var(--space-base); position: relative; padding-left: 28px; }
+  .timeline::before { content: ''; position: absolute; left: 9px; top: 6px; bottom: 6px; width: 2px; background: var(--hairline); border-radius: var(--r-full); }
+  .timeline-item { position: relative; padding-bottom: var(--space-lg); }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-item::before { content: ''; position: absolute; left: -23px; top: 4px; width: 12px; height: 12px; border-radius: var(--r-full); background: var(--primary); box-shadow: 0 0 0 4px var(--canvas), 0 0 0 5px var(--primary); }
+  .timeline-when { font-size: 12px; font-weight: 700; letter-spacing: 0.32px; text-transform: uppercase; color: var(--primary); }
+  .timeline-title { font-size: 16px; font-weight: 600; color: var(--ink); margin-top: 4px; line-height: 1.25; }
+  .timeline-body { font-size: 14px; color: var(--body); line-height: 1.5; margin-top: 6px; }
+  .timeline-body strong { color: var(--ink); font-weight: 600; }
+
+  .tips { margin-top: var(--space-base); }
+  .tip { border-bottom: 1px solid var(--hairline-soft); }
+  .tip:first-child { border-top: 1px solid var(--hairline-soft); }
+  .tip-toggle { width: 100%; background: none; border: none; cursor: pointer; padding: var(--space-base) 0; display: flex; align-items: center; justify-content: space-between; gap: var(--space-base); font-family: inherit; text-align: left; color: var(--ink); }
+  .tip-label { display: flex; align-items: center; gap: var(--space-md); flex: 1; min-width: 0; }
+  .tip-emoji { font-size: 22px; line-height: 1; flex-shrink: 0; }
+  .tip-title { font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.25; }
+  .tip-chevron { width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; color: var(--muted); transition: transform 0.25s ease; font-size: 18px; flex-shrink: 0; }
+  .tip[aria-expanded="true"] .tip-chevron { transform: rotate(180deg); }
+  .tip-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+  .tip-content-inner { padding: 0 0 var(--space-base) 46px; font-size: 14px; color: var(--body); line-height: 1.5; }
+
+  footer { margin-top: var(--space-xxl); padding: var(--space-xl) 0 var(--space-xxl); border-top: 1px solid var(--hairline); text-align: center; font-size: 13px; color: var(--muted); line-height: 1.4; }
+  footer p + p { margin-top: 6px; }
+
+  .reveal { opacity: 0; transform: translateY(8px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+    .reveal { opacity: 1; transform: none; }
+    html { scroll-behavior: auto; }
+  }
+  @media (min-width: 600px) { .container { padding: 0 var(--space-xl); } }
+</style>
+
+<meta name="planty-context" content="Anzucht von Cayenne-Pepper-Samen: Aussaatzeit Januar bis März, Keimtemperatur 25-28°C, Anzuchterde, Plastiktöpfe mit Deckel, Pikieren nach 2-3 Blättern, Tipps bis zur Ernte">
+<meta name="planty-label" content="Cayenne Anzucht">
+</head>
+<body>
+
+<header class="topnav">
+  <div class="container topnav-inner">
+    <span class="brand">
+      <span class="brand-orb" aria-hidden="true">🌱</span>
+      PlantCare
+    </span>
+    <span class="nav-tag">Cayenne Anzucht</span>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-photo">
+      <div class="badge"><span aria-hidden="true">🌱</span> Anzucht-Guide</div>
+      <div class="scene" aria-hidden="true">
+        <div class="scene-fan"><span>🌱</span><span>🌶️</span></div>
+      </div>
+    </div>
+
+    <div class="hero-text">
+      <h1 id="hero-title">Cayenne aus dem Samenkorn</h1>
+      <p>Von der Aussaat bis zur scharfen Schote — der komplette Anzucht-Guide für Cayenne Peppers. Alles, was du brauchst, um selbst geerntete Samen zum Erfolg zu bringen.</p>
+      <div class="hero-meta">
+        <span>Cayenne Pepper</span>
+        <span class="dot" aria-hidden="true"></span>
+        <span>Mittel anspruchsvoll</span>
+        <span class="dot" aria-hidden="true"></span>
+        <span>Lohnt sich sehr</span>
+      </div>
+    </div>
+
+    <div class="stats" aria-label="Anzucht-Überblick">
+      <div class="stat">
+        <div class="stat-value">25–28°C</div>
+        <div class="stat-label">Keimtemp.</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">10–21 d</div>
+        <div class="stat-label">Keimzeit</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">Jan–Mär</div>
+        <div class="stat-label">Aussaat</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="section-eyebrow">Aussaatzeit</div>
+    <h2 class="section-title">Früh starten, früh ernten</h2>
+    <p class="section-sub">Cayenne braucht einen langen Vorsprung — je früher, desto besser.</p>
+
+    <div class="cards">
+      <article class="care-card">
+        <div class="care-card-head">
+          <div class="care-icon" aria-hidden="true">📅</div>
+          <div>
+            <h3>Optimale Aussaatzeit</h3>
+            <div class="freq">Januar bis März</div>
+          </div>
+        </div>
+        <p>Mindestens 10–12 Wochen vor den Eisheiligen (Mitte Mai) aussäen. Wer im Januar startet, hat im Sommer eine deutlich längere Ernte-Saison und kräftigere Pflanzen.</p>
+        <div class="hint">
+          <span class="hint-emoji" aria-hidden="true">📌</span>
+          <span>Die Eisheiligen sind der <strong>11.–15. Mai</strong>. Vorher dürfen Chilis nicht dauerhaft draußen bleiben. Wer im Januar sät, kann ab Juni die ersten Schoten erwarten.</span>
+        </div>
+      </article>
+
+      <article class="care-card">
+        <div class="care-card-head">
+          <div class="care-icon" aria-hidden="true">🌡️</div>
+          <div>
+            <h3>Keimtemperatur</h3>
+            <div class="freq">25–28°C Bodentemperatur</div>
+          </div>
+        </div>
+        <p>Die Bodentemperatur ist entscheidend, nicht die Lufttemperatur. Fensterbänke im Winter haben oft nur 15–18°C — eine Heizmatte unter den Töpfen löst das Problem elegant.</p>
+        <div class="hint">
+          <span class="hint-emoji" aria-hidden="true">🌡️</span>
+          <span>Ein <strong>Infrarot-Thermometer</strong> auf die Erde gehalten verrät dir die echte Bodentemperatur. Unter 20°C keimt kaum etwas — über 28°C wird's wieder schlechter.</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="section-eyebrow">Das Setup</div>
+    <h2 class="section-title">Die richtige Basis</h2>
+    <p class="section-sub">Vier Entscheidungen, die den Unterschied machen.</p>
+
+    <div class="cards">
+      <article class="care-card">
+        <div class="care-card-head">
+          <div class="care-icon" aria-hidden="true">🪱</div>
+          <div>
+            <h3>Die richtige Erde</h3>
+            <div class="freq">Nährstoffarme Anzuchterde</div>
+          </div>
+        </div>
+        <p>Spezielle Keim- oder Anzuchterde verwenden: nährstoffarm, luftig, gute Drainage. Keine normale Blumenerde — die ist zu schwer und zu nährstoffreich für zarte Sämlinge.</p>
+        <div class="hint">
+          <span class="hint-emoji" aria-hidden="true">💡</span>
+          <span>Torffreie Anzuchterde ist die Empfehlung. <strong>Erst nach dem Pikieren</strong> darf normale Universalerde rein — beim Keimen schadet Nährstoffüberschuss mehr als er nützt.</span>
+        </div>
+      </article>
+
+      <article class="care-card">
+        <div class="care-card-head">
+          <div class="care-icon" aria-hidden="true">🪣</div>
+          <div>
+            <h3>Plastiktopf mit Deckel</h3>
+            <div class="freq">Kein Papier beim Keimen</div>
+          </div>
+        </div>
+        <p>Kleine Plastiktöpfe (4–6 cm) mit transparenter Haube oder im Mini-Gewächshaus. Der Deckel hält Feuchtigkeit und Wärme — beides entscheidend für die Keimung.</p>
+        <div class="hint">
+          <span class="hint-emoji" aria-hidden="true">⚠️</span>
+          <span><strong>Papier-Anzuchttöpfe erst nach dem Pikieren!</strong> Beim Keimen trocknen sie zu schnell aus und isolieren Wärme schlecht. Täglich 5 Min. lüften, damit kein Schimmel entsteht.</span>
+        </div>
+      </article>
+
+      <article class="care-card">
+        <div class="care-card-head">
+          <div class="care-icon" aria-hidden="true">🌰</div>
+          <div>
+            <h3>Wie viele Samen pro Topf?</h3>
+            <div class="freq">2–3 Samen, 5 mm tief</div>
+          </div>
+        </div>
+        <p>2–3 Samen pro Töpfchen auf feuchte Erde drücken und knapp 5 mm abdecken. Nach der Keimung auf den stärksten Sämling reduzieren — die anderen entfernen.</p>
+        <div class="hint">
+          <span class="hint-emoji" aria-hidden="true">✂️</span>
+          <span>Überzählige Sämlinge <strong>NICHT herausziehen</strong> — Wurzeln können verwoben sein. Einfach mit der Schere direkt am Boden abschneiden. Die Wurzeln im Boden stören nicht.</span>
+        </div>
+      </article>
+
+      <article class="care-card">
+        <div class="care-card-head">
+          <div class="care-icon" aria-hidden="true">🌞</div>
+          <div>
+            <h3>Standort & Bedingungen</h3>
+            <div class="freq">Hell, warm, zugluftfrei</div>
+          </div>
+        </div>
+        <p>Südfenster oder Pflanzenlampe. Mindestens 22–25°C tagsüber, nachts nicht unter 18°C. Keine Zugluft — Chilis reagieren empfindlich auf Kälteeinbrüche.</p>
+        <div class="hint">
+          <span class="hint-emoji" aria-hidden="true">🔄</span>
+          <span>Töpfe alle 2–3 Tage um <strong>180° drehen</strong>, damit alle Seiten gleichmäßig Licht bekommen und die Pflanze gerade statt schief wächst.</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="section-eyebrow">Von Samen zur Ernte</div>
+    <h2 class="section-title">Dein Fahrplan durch die Saison</h2>
+    <p class="section-sub">Was wann zu tun ist.</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-when">Januar–März</div>
+        <div class="timeline-title"><span aria-hidden="true">🌰</span> Aussaat</div>
+        <p class="timeline-body">Samen 5 mm tief drücken, gut wässern, Deckel drauf. <strong>Täglich kurz lüften</strong> (5 Minuten reichen), Erde immer leicht feucht halten. Heizmatte einschalten.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-when">10–21 Tage nach Aussaat</div>
+        <div class="timeline-title"><span aria-hidden="true">🌱</span> Erste Keimblätter</div>
+        <p class="timeline-body">Deckel abnehmen, sobald die meisten Samen gekeimt haben. Jetzt brauchen sie <strong>maximales Licht</strong> — Fensterbank Süd oder Pflanzenlampe. Überzählige Sämlinge abschneiden.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-when">6–8 Wochen nach Aussaat</div>
+        <div class="timeline-title"><span aria-hidden="true">🪴</span> Pikieren</div>
+        <p class="timeline-body">Wenn 2–3 echte Laubblätter (nicht die Keimblätter!) sichtbar sind, in <strong>9–12 cm Töpfe</strong> pikieren. Jetzt darf normale Universalerde rein. 2–3 Tage etwas schattiger stellen.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-when">März–April</div>
+        <div class="timeline-title"><span aria-hidden="true">🌿</span> Wachstumsphase</div>
+        <p class="timeline-body">Töpfe regelmäßig drehen für gleichmäßigen Wuchs. Bei ersten Blütenanzeichen: <strong>Chili- oder Tomatendünger</strong> nach Packungsanleitung einsetzen.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-when">Ab 15. Mai (nach Eisheiligen)</div>
+        <div class="timeline-title"><span aria-hidden="true">☀️</span> Abhärten & raus</div>
+        <p class="timeline-body">Erst 1–2 Stunden Sonne täglich, dann jeden Tag etwas mehr steigern. Nach 1–2 Wochen können sie dauerhaft raus. <strong>Direkte Mittagssonne</strong> erst nach der Abhärtungsphase zumuten.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-when">Sommer</div>
+        <div class="timeline-title"><span aria-hidden="true">🌶️</span> Ernte</div>
+        <p class="timeline-body">Schoten bei leuchtend roter Farbe ernten. <strong>Öfter ernten = mehr neue Schoten</strong> — jede geerntete Schote ist ein Signal an die Pflanze, nachzuproduzieren.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="section-eyebrow">Pro-Tipps</div>
+    <h2 class="section-title">Kleine Tricks, große Ernte</h2>
+    <p class="section-sub">Tippen zum Aufklappen.</p>
+
+    <div class="tips">
+      <div class="tip" aria-expanded="false">
+        <button class="tip-toggle" aria-controls="tip-1" aria-expanded="false">
+          <span class="tip-label">
+            <span class="tip-emoji" aria-hidden="true">🔥</span>
+            <span class="tip-title">Heizmatte — der größte Unterschied</span>
+          </span>
+          <span class="tip-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="tip-content" id="tip-1" role="region">
+          <div class="tip-content-inner">
+            Eine Heizmatte unter den Töpfen bringt die Bodentemperatur auf 25–28°C — selbst im tiefsten Januar. Das verkürzt die Keimzeit von bis zu 3 Wochen auf teilweise unter 10 Tagen. Für alle, die regelmäßig Chilis ziehen, ist das eine lohnende Investition.
+          </div>
+        </div>
+      </div>
+
+      <div class="tip" aria-expanded="false">
+        <button class="tip-toggle" aria-controls="tip-2" aria-expanded="false">
+          <span class="tip-label">
+            <span class="tip-emoji" aria-hidden="true">✂️</span>
+            <span class="tip-title">Topping — mehr Äste, mehr Schoten</span>
+          </span>
+          <span class="tip-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="tip-content" id="tip-2" role="region">
+          <div class="tip-content-inner">
+            Wenn die Pflanze 5–6 Blattpaare hat, die Hauptspitze mit einer sauberen Schere entfernen ("Topping"). Die Pflanze verzweigt sich dann buschiger und produziert am Ende deutlich mehr Früchte — auf Kosten von 2–3 Wochen Reifezeit. Lohnt sich fast immer.
+          </div>
+        </div>
+      </div>
+
+      <div class="tip" aria-expanded="false">
+        <button class="tip-toggle" aria-controls="tip-3" aria-expanded="false">
+          <span class="tip-label">
+            <span class="tip-emoji" aria-hidden="true">🌶️</span>
+            <span class="tip-title">Schärfe-Boost vor der Ernte</span>
+          </span>
+          <span class="tip-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="tip-content" id="tip-3" role="region">
+          <div class="tip-content-inner">
+            In den letzten 2–3 Wochen vor der Ernte etwas sparsamer gießen. Mäßiger Trockenstress lässt die Pflanze mehr Capsaicin produzieren. Nicht austrocknen lassen — nur knapper halten. Das Ergebnis: spürbar schärfere Schoten als bei gut bewässerten Pflanzen.
+          </div>
+        </div>
+      </div>
+
+      <div class="tip" aria-expanded="false">
+        <button class="tip-toggle" aria-controls="tip-4" aria-expanded="false">
+          <span class="tip-label">
+            <span class="tip-emoji" aria-hidden="true">🌱</span>
+            <span class="tip-title">Eigene Samen für nächstes Jahr gewinnen</span>
+          </span>
+          <span class="tip-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="tip-content" id="tip-4" role="region">
+          <div class="tip-content-inner">
+            Eine vollreife, leuchtend rote Schote halbieren, Samen herauslösen und auf Küchenpapier 1–2 Wochen an einem warmen, luftigen Ort trocknen lassen. In einem Papierbriefchen kühl und dunkel lagern — hält 2–3 Jahre problemlos. Im nächsten Januar wieder rein in die Erde.
+          </div>
+        </div>
+      </div>
+
+      <div class="tip" aria-expanded="false">
+        <button class="tip-toggle" aria-controls="tip-5" aria-expanded="false">
+          <span class="tip-label">
+            <span class="tip-emoji" aria-hidden="true">❄️</span>
+            <span class="tip-title">Überwinterung lohnt sich</span>
+          </span>
+          <span class="tip-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="tip-content" id="tip-5" role="region">
+          <div class="tip-content-inner">
+            Im Herbst die Pflanze stark zurückschneiden (auf 10–15 cm), in einen etwas kleineren Topf umtopfen und kühl (10–15°C) und dunkel überwintern. Ab Januar wieder ans Licht bringen und vorsichtig anwässern. Zweijährige Cayenne-Pflanzen produzieren oft das Doppelte der Erstlingsernte.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>🌱 Anzucht-Guide · Cayenne Pepper</p>
+    <p>Nur für Niko — viel Erfolg beim Keimen!</p>
+  </footer>
+
+</main>
+
+<script>
+  const tips = document.querySelectorAll('.tip');
+  tips.forEach(tip => {
+    const btn = tip.querySelector('.tip-toggle');
+    const content = tip.querySelector('.tip-content');
+    btn.addEventListener('click', () => {
+      const isOpen = tip.getAttribute('aria-expanded') === 'true';
+      tips.forEach(other => {
+        if (other !== tip) {
+          other.setAttribute('aria-expanded', 'false');
+          other.querySelector('.tip-toggle').setAttribute('aria-expanded', 'false');
+          other.querySelector('.tip-content').style.maxHeight = '0px';
+        }
+      });
+      tip.setAttribute('aria-expanded', String(!isOpen));
+      btn.setAttribute('aria-expanded', String(!isOpen));
+      content.style.maxHeight = isOpen ? '0px' : content.scrollHeight + 'px';
+    });
+  });
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+</script>
+
+<script>
+(function() {
+  var SUPABASE_URL = 'https://frjmvszuncgbmqgfjcgz.supabase.co';
+  var ANON_KEY = 'sb_publishable_htYoshV2Tb54M3q4XpLn7g_1Ih4Z9QJ';
+  var PAGE = 'seed-cayenne.html';
+  var ua = navigator.userAgent;
+  function deviceType(u) { if (/tablet|ipad|playbook|silk/i.test(u)) return 'tablet'; if (/mobile|iphone|ipod|android|blackberry/i.test(u)) return 'mobile'; return 'desktop'; }
+  function getBrowser(u) { if (/edg\//i.test(u)) return 'Edge'; if (/opr|opera/i.test(u)) return 'Opera'; if (/chrome/i.test(u)) return 'Chrome'; if (/firefox/i.test(u)) return 'Firefox'; if (/safari/i.test(u)) return 'Safari'; return 'Other'; }
+  function getOS(u) { if (/windows nt/i.test(u)) return 'Windows'; if (/android/i.test(u)) return 'Android'; if (/iphone|ipad|ipod/i.test(u)) return 'iOS'; if (/mac os x/i.test(u)) return 'macOS'; if (/linux/i.test(u)) return 'Linux'; return 'Other'; }
+  var visitorId = localStorage.getItem('plantcare_vid');
+  var isReturning = !!visitorId;
+  if (!visitorId) { visitorId = 'v' + Math.random().toString(36).slice(2, 9) + Date.now().toString(36); localStorage.setItem('plantcare_vid', visitorId); }
+  var data = { page: PAGE, device_type: deviceType(ua), user_agent: ua, browser: getBrowser(ua), os: getOS(ua), referrer: document.referrer || null, screen: window.screen.width + 'x' + window.screen.height, language: navigator.language || null, timezone: (Intl && Intl.DateTimeFormat) ? Intl.DateTimeFormat().resolvedOptions().timeZone : null, visitor_id: visitorId, is_returning: isReturning };
+  function send(extra) { fetch(SUPABASE_URL + '/rest/v1/plantcare_page_views', { method: 'POST', headers: { 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }, body: JSON.stringify(Object.assign({}, data, extra || {})) }); }
+  fetch('https://ipapi.co/json/').then(function(r) { return r.json(); }).then(function(g) { send({ country: g.country_name || null, city: g.city || null }); }).catch(function() { send(); });
+})();
+</script>
+
+<script src="planty.js"></script>
+</body>
+</html>

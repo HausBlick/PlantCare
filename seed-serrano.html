@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>Serrano Anzucht — Von Samen zur Salsa</title>
+<meta name="description" content="Kompletter Anzucht-Guide für Serrano Pepper. Aussaatzeit, Erde, Töpfe, Pikieren und alle Tipps bis zur mexikanischen Ernte.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --primary:        #ff385c;
+    --primary-active: #e00b41;
+    --ink:            #222222;
+    --body:           #3f3f3f;
+    --muted:          #6a6a6a;
+    --muted-soft:     #929292;
+    --hairline:       #dddddd;
+    --hairline-soft:  #ebebeb;
+    --canvas:         #ffffff;
+    --surface-soft:   #f7f7f7;
+    --surface-strong: #f2f2f2;
+    --on-primary:     #ffffff;
+
+    --shadow-card:
+      rgba(0,0,0,0.02) 0 0 0 1px,
+      rgba(0,0,0,0.04) 0 2px 6px 0,
+      rgba(0,0,0,0.10) 0 4px 8px 0;
+
+    --r-sm:   8px;
+    --r-md:  14px;
+    --r-lg:  20px;
+    --r-xl:  32px;
+    --r-full: 9999px;
+
+    --space-xs:  4px;
+    --space-sm:  8px;
+    --space-md: 12px;
+    --space-base:16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-xxl:48px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', 'Airbnb Cereal VF', Circular, -apple-system, system-ui, Roboto, "Helvetica Neue", sans-serif;
+    background: var(--canvas);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .container { max-width: 480px; margin: 0 auto; padding: 0 var(--space-lg); }
+
+  .topnav {
+    height: 64px;
+    border-bottom: 1px solid var(--hairline);
+    background: rgba(255,255,255,0.92);
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: saturate(180%) blur(10px);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
+  }
+  .topnav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: inline-flex; align-items: center; gap: var(--space-sm); font-size: 16px; font-weight: 600; color: var(--ink); letter-spacing: -0.1px; }
+  .brand-orb { width: 28px; height: 28px; border-radius: var(--r-full); background: var(--primary); display: inline-flex; align-items: center; justify-content: center; font-size: 14px; line-height: 1; }
+  .nav-tag { font-size: 11px; font-weight: 600; color: var(--muted); background: var(--surface-strong); border-radius: var(--r-full); padding: 4px 10px; }
+
+  .hero { margin: var(--space-lg) 0 var(--space-xl); }
+  .hero-photo {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background: radial-gradient(120% 80% at 30% 20%, #e8f5e9 0%, #c8e6c9 38%, #66bb6a 70%, #2e7d32 100%);
+    box-shadow: var(--shadow-card);
+  }
+  .hero-photo .scene { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 150px; line-height: 1; filter: drop-shadow(0 14px 28px rgba(0,0,0,0.20)); transform: translateY(2%); }
+  .scene-fan { display: flex; flex-wrap: wrap; justify-content: center; align-content: center; width: 140px; gap: 6px; font-size: 64px; line-height: 1; }
+  .hero-photo .badge { position: absolute; top: var(--space-base); left: var(--space-base); background: var(--canvas); color: var(--ink); border-radius: var(--r-full); padding: 6px 12px; font-size: 11px; font-weight: 600; box-shadow: var(--shadow-card); display: inline-flex; align-items: center; gap: 6px; }
+
+  .hero-text { margin-top: var(--space-lg); }
+  .hero-text h1 { font-size: 28px; font-weight: 700; line-height: 1.18; letter-spacing: -0.4px; color: var(--ink); }
+  .hero-text p { margin-top: var(--space-md); font-size: 16px; color: var(--body); line-height: 1.5; }
+  .hero-meta { margin-top: var(--space-base); display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-sm); font-size: 14px; color: var(--muted); }
+  .dot { width: 3px; height: 3px; border-radius: var(--r-full); background: var(--muted-soft); display: inline-block; }
+
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: var(--space-lg); border: 1px solid var(--hairline); border-radius: var(--r-md); padding: var(--space-base) var(--space-sm); background: var(--canvas); }
+  .stat { text-align: center; padding: 4px 6px; }
+  .stat + .stat { border-left: 1px solid var(--hairline-soft); }
+  .stat-value { font-size: 18px; font-weight: 700; color: var(--ink); letter-spacing: -0.18px; line-height: 1.2; }
+  .stat-label { font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.2; }
+
+  .section { margin: var(--space-xl) 0; }
+  .section-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.32px; text-transform: uppercase; color: var(--primary); margin-bottom: var(--space-sm); }
+  .section-title { font-size: 22px; font-weight: 600; line-height: 1.2; letter-spacing: -0.44px; color: var(--ink); }
+  .section-sub { margin-top: var(--space-sm); font-size: 14px; color: var(--muted); line-height: 1.43; }
+
+  .cards { display: grid; gap: var(--space-md); margin-top: var(--space-base); }
+  .care-card { background: var(--canvas); border: 1px solid var(--hairline-soft); border-radius: var(--r-md); padding: var(--space-base); transition: box-shadow 0.2s ease, transform 0.2s ease; }
+  .care-card:active { transform: scale(0.995); box-shadow: var(--shadow-card); }
+  .care-card-head { display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-md); }
+  .care-icon { width: 44px; height: 44px; border-radius: var(--r-full); background: var(--surface-strong); display: flex; align-items: center; justify-content: center; font-size: 22px; line-height: 1; flex-shrink: 0; }
+  .care-card h3 { font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.25; }
+  .care-card .freq { font-size: 13px; color: var(--muted); margin-top: 2px; line-height: 1.2; }
+  .care-card p { font-size: 14px; color: var(--body); line-height: 1.5; }
+  .hint { margin-top: var(--space-md); background: var(--surface-soft); border-radius: var(--r-sm); padding: var(--space-md); font-size: 13px; color: var(--body); line-height: 1.45; display: flex; gap: var(--space-sm); align-items: flex-start; }
+  .hint-emoji { flex-shrink: 0; font-size: 16px; line-height: 1.2; }
+  .hint strong { color: var(--ink); font-weight: 600; }
+
+  .timeline { margin-top: var(--space-base); position: relative; padding-left: 28px; }
+  .timeline::before { content: ''; position: absolute; left: 9px; top: 6px; bottom: 6px; width: 2px; background: var(--hairline); border-radius: var(--r-full); }
+  .timeline-item { position: relative; padding-bottom: var(--space-lg); }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-item::before { content: ''; position: absolute; left: -23px; top: 4px; width: 12px; height: 12px; border-radius: var(--r-full); background: var(--primary); box-shadow: 0 0 0 4px var(--canvas), 0 0 0 5px var(--primary); }
+  .timeline-when { font-size: 12px; font-weight: 700; letter-spacing: 0.32px; text-transform: uppercase; color: var(--primary); }
+  .timeline-title { font-size: 16px; font-weight: 600; color: var(--ink); margin-top: 4px; line-height: 1.25; }
+  .timeline-body { font-size: 14px; color: var(--body); line-height: 1.5; margin-top: 6px; }
+  .timeline-body strong { color: var(--ink); font-weight: 600; }
+
+  .tips { margin-top: var(--space-base); }
+  .tip { border-bottom: 1px solid var(--hairline-soft); }
+  .tip:first-child { border-top: 1px solid var(--hairline-soft); }
+  .tip-toggle { width: 100%; background: none; border: none; cursor: pointer; padding: var(--space-base) 0; display: flex; align-items: center; justify-content: space-between; gap: var(--space-base); font-family: inherit; text-align: left; color: var(--ink); }
+  .tip-label { display: flex; align-items: center; gap: var(--space-md); flex: 1; min-width: 0; }
+  .tip-emoji { font-size: 22px; line-height: 1; flex-shrink: 0; }
+  .tip-title { font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.25; }
+  .tip-chevron { width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; color: var(--muted); transition: transform 0.25s ease; font-size: 18px; flex-shrink: 0; }
+  .tip[aria-expanded="true"] .tip-chevron { transform: rotate(180deg); }
+  .tip-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+  .tip-content-inner { padding: 0 0 var(--space-base) 46px; font-size: 14px; color: var(--body); line-height: 1.5; }
+
+  footer { margin-top: var(--space-xxl); padding: var(--space-xl) 0 var(--space-xxl); border-top: 1px solid var(--hairline); text-align: center; font-size: 13px; color: var(--muted); line-height: 1.4; }
+  footer p + p { margin-top: 6px; }
+
+  .reveal { opacity: 0; transform: translateY(8px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+    .reveal { opacity: 1; transform: none; }
+    html { scroll-behavior: auto; }
+  }
+  @media (min-width: 600px) { .container { padding: 0 var(--space-xl); } }
+</style>
+
+<meta name="planty-context" content="Anzucht von Serrano-Pepper-Samen: Aussaatzeit Januar bis Februar, Keimtemperatur 25-28°C, grün oder rot ernten, traditionell für mexikanische Salsa, Anzucht ähnlich wie Cayenne">
+<meta name="planty-label" content="Serrano Anzucht">
+</head>
+<body>
+
+<header class="topnav">
+  <div class="container topnav-inner">
+    <span class="brand">
+      <span class="brand-orb" aria-hidden="true">🌱</span>
+      PlantCare
+    </span>
+    <span class="nav-tag">Serrano Anzucht</span>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-photo">
+      <div class="badge"><span aria-hidden="true">🌱</span> Anzucht-Guide</div>
+      <div class="scene" aria-hidden="true">
+        <div class="scene-fan"><span>🌱</span><span>🌶️</span></div>
+      </div>
+    </div>
+
+    <div class="hero-text">
+      <h1 id="hero-title">Serrano aus dem Samenkorn</h1>
+      <p>Der mexikanische Klassiker. Fruchtig, mittelscharf, unglaublich produktiv. Von der Aussaat bis zur ersten selbst gemachten Salsa — hier ist alles, was du brauchst.</p>
+      <div class="hero-meta">
+        <span>Serrano Pepper</span>
+        <span class="dot" aria-hidden="true"></span>
+        <span>Mittel anspruchsvoll</span>
+        <span class="dot" aria-hidden="true"></span>
+        <span>Sehr produktiv</span>
+      </div>
+    </div>
+
+    <div class="stats" aria-label="Anzucht-Überblick">
+      <div class="stat">
+        <div class="stat-value">25–28°C</div>
+        <div class="stat-label">Keimtemp.</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">14–21 d</div>
+        <div class="stat-label">Keimzeit</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">Jan–Feb</div>
+        <div class="stat-label">Aussaat</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="section-eyebrow">Aussaatzeit</div>
+    <h2 class="section-title">Etwas früher als Cayenne</h2>
+    <p class="section-sub">Serrano keimt ein wenig langsamer — ein früherer Start gibt mehr Puffer.</p>
+
+    <div class="cards">
+      <article class="care-card">
+        <div class="care-card-head">
+          <div class="care-icon" aria-hidden="true">📅</div>
+          <div>
+            <h3>Optimale Aussaatzeit</h3>
+            <div class="freq">Januar bis Februar</div>
+          </div>
+        </div>
+        <p>Mindestens 12 Wochen vor den Eisheiligen (Mitte Mai) aussäen. Serrano keimt etwas langsamer als Cayenne — der frühere Start gibt mehr Spielraum bis zum Auspflanzen.</p>
+        <div class="hint">
+          <span class="hint-emoji" aria-hidden="true">📌</span>
+          <span>Die Eisheiligen sind der <strong>11.–15. Mai</strong>. Im Januar anfangen bedeutet: kräftige, gut etablierte Pflanzen bis zum Auspflanzen und eine lange Erntesaison.</span>
+        </div>
+      </article>
+
+      <article class="care-card">
+        <div class="care-card-head">
+          <div class="care-icon" aria-hidden="true">🌡️</div>
+          <div>
+            <h3>Keimtemperatur</h3>
+            <div class="freq">25–28°C Bodentemperatur</div>
+          </div>
+        </div>
+        <p>Gleiche Anforderungen wie Cayenne — Bodentemperatur zählt, nicht Lufttemperatur. Eine Heizmatte unter den Töpfen ist sehr hilfreich, aber kein absolutes Muss.</p>
+        <div class="hint">
+          <span class="hint-emoji" aria-hidden="true">🌡️</span>
+          <span>Unter 20°C Bodentemperatur keimt kaum etwas. Auf einem warmen Heizkörper oder mit Heizmatte kommen die Samen deutlich schneller und gleichmäßiger.</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="section-eyebrow">Das Setup</div>
+    <h2 class="section-title">Die richtige Basis</h2>
+    <p class="section-sub">Vier Entscheidungen, die den Unterschied machen.</p>
+
+    <div class="cards">
+      <article class="care-card">
+        <div class="care-card-head">
+          <div class="care-icon" aria-hidden="true">🪱</div>
+          <div>
+            <h3>Die richtige Erde</h3>
+            <div class="freq">Nährstoffarme Anzuchterde</div>
+          </div>
+        </div>
+        <p>Spezielle Keim- oder Anzuchterde: nährstoffarm, luftig, gute Drainage. Keine normale Blumenerde — zu schwer und zu nährstoffreich für Sämlinge.</p>
+        <div class="hint">
+          <span class="hint-emoji" aria-hidden="true">💡</span>
+          <span>Torffreie Anzuchterde ist die Empfehlung. <strong>Nach dem Pikieren</strong> darf normale Universalerde rein — dann brauchen die Pflanzen echte Nährstoffe.</span>
+        </div>
+      </article>
+
+      <article class="care-card">
+        <div class="care-card-head">
+          <div class="care-icon" aria-hidden="true">🪣</div>
+          <div>
+            <h3>Plastiktopf mit Deckel</h3>
+            <div class="freq">Kein Papier beim Keimen</div>
+          </div>
+        </div>
+        <p>Kleine Plastiktöpfe (4–6 cm) mit transparenter Haube oder im Mini-Gewächshaus. Deckel hält Wärme und Feuchtigkeit — beides entscheidend für die Keimung.</p>
+        <div class="hint">
+          <span class="hint-emoji" aria-hidden="true">⚠️</span>
+          <span><strong>Papier-Anzuchttöpfe erst nach dem Pikieren!</strong> Beim Keimen trocknen sie zu schnell aus. Täglich 5 Min. lüften, damit kein Schimmel entsteht.</span>
+        </div>
+      </article>
+
+      <article class="care-card">
+        <div class="care-card-head">
+          <div class="care-icon" aria-hidden="true">🌰</div>
+          <div>
+            <h3>Wie viele Samen pro Topf?</h3>
+            <div class="freq">2 Samen, 5 mm tief</div>
+          </div>
+        </div>
+        <p>2 Samen pro Töpfchen auf feuchte Erde drücken und 5 mm abdecken. Serrano keimt zuverlässig — nach der Keimung auf den stärksten Sämling reduzieren.</p>
+        <div class="hint">
+          <span class="hint-emoji" aria-hidden="true">✂️</span>
+          <span>Überzählige Sämlinge <strong>NICHT herausziehen</strong>. Mit der Schere direkt am Boden abschneiden — so bleiben die Wurzeln des Übrigbleibenden ungestört.</span>
+        </div>
+      </article>
+
+      <article class="care-card">
+        <div class="care-card-head">
+          <div class="care-icon" aria-hidden="true">🌞</div>
+          <div>
+            <h3>Standort & Bedingungen</h3>
+            <div class="freq">Hell, warm, zugluftfrei</div>
+          </div>
+        </div>
+        <p>Südfenster oder Pflanzenlampe. Mindestens 22–25°C tagsüber, nachts nicht unter 18°C. Serrano mag es gleichmäßig warm — keine Kälteeinbrüche.</p>
+        <div class="hint">
+          <span class="hint-emoji" aria-hidden="true">🔄</span>
+          <span>Töpfe alle 2–3 Tage um <strong>180° drehen</strong>, damit alle Seiten gleichmäßig Licht bekommen und kein einseitiger Wuchs entsteht.</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="section-eyebrow">Von Samen zur Ernte</div>
+    <h2 class="section-title">Dein Fahrplan durch die Saison</h2>
+    <p class="section-sub">Was wann zu tun ist.</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-when">Januar–Februar</div>
+        <div class="timeline-title"><span aria-hidden="true">🌰</span> Aussaat</div>
+        <p class="timeline-body">Samen 5 mm tief drücken, gut wässern, Deckel drauf. <strong>Täglich kurz lüften</strong>, Erde immer leicht feucht halten. Warm stellen — Heizmatte hilft.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-when">14–21 Tage nach Aussaat</div>
+        <div class="timeline-title"><span aria-hidden="true">🌱</span> Erste Keimblätter</div>
+        <p class="timeline-body">Deckel abnehmen, sobald die Samen gekeimt haben. Jetzt brauchen sie <strong>maximales Licht</strong> — Südfenster oder Pflanzenlampe. Überzählige Sämlinge abschneiden.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-when">8–10 Wochen nach Aussaat</div>
+        <div class="timeline-title"><span aria-hidden="true">🪴</span> Pikieren</div>
+        <p class="timeline-body">Wenn 2–3 echte Laubblätter sichtbar sind, in <strong>9–12 cm Töpfe</strong> pikieren. Jetzt darf normale Universalerde rein. 2–3 Tage etwas schattiger stellen zum Erholen.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-when">März–April</div>
+        <div class="timeline-title"><span aria-hidden="true">🌿</span> Wachstumsphase</div>
+        <p class="timeline-body">Töpfe regelmäßig drehen. Serrano wächst kompakter als Cayenne. Bei ersten Blüten: <strong>Chili- oder Tomatendünger</strong> nach Packungsanleitung einsetzen.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-when">Ab 15. Mai (nach Eisheiligen)</div>
+        <div class="timeline-title"><span aria-hidden="true">☀️</span> Abhärten & raus</div>
+        <p class="timeline-body">Langsam an die Sonne gewöhnen — erst 1–2 Stunden täglich, dann täglich steigern. Nach 1–2 Wochen können sie dauerhaft raus in die volle Sonne.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-when">Sommer — Grün oder Rot?</div>
+        <div class="timeline-title"><span aria-hidden="true">🌶️</span> Ernte</div>
+        <p class="timeline-body"><strong>Grün:</strong> knackig, fruchtig-scharf — der klassische Serrano-Geschmack für Salsa. <strong>Rot:</strong> süßer, etwas weicher, voller Reife. Beides ist köstlich — wann du erntest, ist Geschmackssache.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="section-eyebrow">Pro-Tipps</div>
+    <h2 class="section-title">Alles aus der Pflanze herausholen</h2>
+    <p class="section-sub">Tippen zum Aufklappen.</p>
+
+    <div class="tips">
+      <div class="tip" aria-expanded="false">
+        <button class="tip-toggle" aria-controls="tip-1" aria-expanded="false">
+          <span class="tip-label">
+            <span class="tip-emoji" aria-hidden="true">🟢</span>
+            <span class="tip-title">Grün oder Rot ernten?</span>
+          </span>
+          <span class="tip-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="tip-content" id="tip-1" role="region">
+          <div class="tip-content-inner">
+            Grün = klassisch mexikanisch. Frisch, knackig, fruchtig mit einem scharfen Biss — perfekt für Salsa Verde, Guacamole oder roh. Rot = vollreif. Die Schärfe nimmt leicht ab, der Geschmack wird süßer und fruchtiger. Beide Reifegrade sind delicious — probier beides aus.
+          </div>
+        </div>
+      </div>
+
+      <div class="tip" aria-expanded="false">
+        <button class="tip-toggle" aria-controls="tip-2" aria-expanded="false">
+          <span class="tip-label">
+            <span class="tip-emoji" aria-hidden="true">🫙</span>
+            <span class="tip-title">Salsa Verde — das Rezept</span>
+          </span>
+          <span class="tip-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="tip-content" id="tip-2" role="region">
+          <div class="tip-content-inner">
+            Serrano-Schoten (grün, 3–4 Stück) + Tomatillos oder grüne Tomaten + Zwiebel + Knoblauch + Koriander in einer Pfanne ohne Öl anrösten bis sie leicht Farbe bekommen, dann pürieren. Mit Limette und Salz abschmecken. Besser als alles aus dem Supermarkt.
+          </div>
+        </div>
+      </div>
+
+      <div class="tip" aria-expanded="false">
+        <button class="tip-toggle" aria-controls="tip-3" aria-expanded="false">
+          <span class="tip-label">
+            <span class="tip-emoji" aria-hidden="true">🔥</span>
+            <span class="tip-title">Grillen macht den Serrano süßer</span>
+          </span>
+          <span class="tip-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="tip-content" id="tip-3" role="region">
+          <div class="tip-content-inner">
+            Serrano direkt auf den heißen Grill legen bis die Schale schwarz wird, dann in eine Tüte geben, 10 Minuten ruhen lassen und die Schale abziehen. Das Raucharoma + die karamellisierte Süße ist ein kompletter Geschmackswandel. Perfekt für Saucen, Marinaden oder einfach so.
+          </div>
+        </div>
+      </div>
+
+      <div class="tip" aria-expanded="false">
+        <button class="tip-toggle" aria-controls="tip-4" aria-expanded="false">
+          <span class="tip-label">
+            <span class="tip-emoji" aria-hidden="true">❄️</span>
+            <span class="tip-title">Einfrieren — denkbar einfach</span>
+          </span>
+          <span class="tip-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="tip-content" id="tip-4" role="region">
+          <div class="tip-content-inner">
+            Serrano-Schoten einfach ganz waschen, trocknen und ins Gefrierfach. Keine Vorbereitung nötig. Im tiefgefrorenen Zustand einzeln herausnehmen, kurz antauen lassen und direkt verarbeiten. Hält problemlos 6–12 Monate und verliert kaum Schärfe oder Geschmack.
+          </div>
+        </div>
+      </div>
+
+      <div class="tip" aria-expanded="false">
+        <button class="tip-toggle" aria-controls="tip-5" aria-expanded="false">
+          <span class="tip-label">
+            <span class="tip-emoji" aria-hidden="true">✂️</span>
+            <span class="tip-title">Häufig ernten für mehr Ertrag</span>
+          </span>
+          <span class="tip-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="tip-content" id="tip-5" role="region">
+          <div class="tip-content-inner">
+            Serrano ist sehr produktiv — eine einzige Pflanze kann 50–100 Früchte pro Saison produzieren, wenn man regelmäßig erntet. Jede geerntete Schote signalisiert der Pflanze: "Mehr produzieren!" Wer wartet, bis alles gleichzeitig reif ist, bremst die Produktion aus.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>🌱 Anzucht-Guide · Serrano Pepper</p>
+    <p>Nur für Niko — viel Erfolg beim Keimen!</p>
+  </footer>
+
+</main>
+
+<script>
+  const tips = document.querySelectorAll('.tip');
+  tips.forEach(tip => {
+    const btn = tip.querySelector('.tip-toggle');
+    const content = tip.querySelector('.tip-content');
+    btn.addEventListener('click', () => {
+      const isOpen = tip.getAttribute('aria-expanded') === 'true';
+      tips.forEach(other => {
+        if (other !== tip) {
+          other.setAttribute('aria-expanded', 'false');
+          other.querySelector('.tip-toggle').setAttribute('aria-expanded', 'false');
+          other.querySelector('.tip-content').style.maxHeight = '0px';
+        }
+      });
+      tip.setAttribute('aria-expanded', String(!isOpen));
+      btn.setAttribute('aria-expanded', String(!isOpen));
+      content.style.maxHeight = isOpen ? '0px' : content.scrollHeight + 'px';
+    });
+  });
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+</script>
+
+<script>
+(function() {
+  var SUPABASE_URL = 'https://frjmvszuncgbmqgfjcgz.supabase.co';
+  var ANON_KEY = 'sb_publishable_htYoshV2Tb54M3q4XpLn7g_1Ih4Z9QJ';
+  var PAGE = 'seed-serrano.html';
+  var ua = navigator.userAgent;
+  function deviceType(u) { if (/tablet|ipad|playbook|silk/i.test(u)) return 'tablet'; if (/mobile|iphone|ipod|android|blackberry/i.test(u)) return 'mobile'; return 'desktop'; }
+  function getBrowser(u) { if (/edg\//i.test(u)) return 'Edge'; if (/opr|opera/i.test(u)) return 'Opera'; if (/chrome/i.test(u)) return 'Chrome'; if (/firefox/i.test(u)) return 'Firefox'; if (/safari/i.test(u)) return 'Safari'; return 'Other'; }
+  function getOS(u) { if (/windows nt/i.test(u)) return 'Windows'; if (/android/i.test(u)) return 'Android'; if (/iphone|ipad|ipod/i.test(u)) return 'iOS'; if (/mac os x/i.test(u)) return 'macOS'; if (/linux/i.test(u)) return 'Linux'; return 'Other'; }
+  var visitorId = localStorage.getItem('plantcare_vid');
+  var isReturning = !!visitorId;
+  if (!visitorId) { visitorId = 'v' + Math.random().toString(36).slice(2, 9) + Date.now().toString(36); localStorage.setItem('plantcare_vid', visitorId); }
+  var data = { page: PAGE, device_type: deviceType(ua), user_agent: ua, browser: getBrowser(ua), os: getOS(ua), referrer: document.referrer || null, screen: window.screen.width + 'x' + window.screen.height, language: navigator.language || null, timezone: (Intl && Intl.DateTimeFormat) ? Intl.DateTimeFormat().resolvedOptions().timeZone : null, visitor_id: visitorId, is_returning: isReturning };
+  function send(extra) { fetch(SUPABASE_URL + '/rest/v1/plantcare_page_views', { method: 'POST', headers: { 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }, body: JSON.stringify(Object.assign({}, data, extra || {})) }); }
+  fetch('https://ipapi.co/json/').then(function(r) { return r.json(); }).then(function(g) { send({ country: g.country_name || null, city: g.city || null }); }).catch(function() { send(); });
+})();
+</script>
+
+<script src="planty.js"></script>
+</body>
+</html>

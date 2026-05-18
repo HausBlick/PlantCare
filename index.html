@@ -246,6 +246,23 @@
   .bg-bogenhanf {
     background: radial-gradient(120% 80% at 30% 20%, #e8f5f0 0%, #a8d8c8 38%, #3d9e78 70%, #1a5c42 100%);
   }
+  .bg-seed-cayenne {
+    background: radial-gradient(120% 80% at 30% 20%, #ffe5eb 0%, #ffd1da 38%, #ff8aa6 70%, #ff385c 100%);
+  }
+  .bg-seed-serrano {
+    background: radial-gradient(120% 80% at 30% 20%, #e8f5e9 0%, #c8e6c9 38%, #66bb6a 70%, #2e7d32 100%);
+  }
+  .bg-seed-scotch {
+    background: radial-gradient(120% 80% at 30% 20%, #fff8e1 0%, #ffecb3 38%, #ffc107 70%, #f57f17 100%);
+  }
+  .qr-section-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.32px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: var(--space-sm);
+  }
 
   .plant-meta { margin-top: var(--space-sm); }
   .plant-title-row {
@@ -535,6 +552,7 @@
     </span>
     <nav class="topnav-links" aria-label="Sektionen">
       <a href="#plants">Pflanzen</a>
+      <a href="#seeds">Samen</a>
       <a href="#stats">Statistiken</a>
       <a href="#qr">QR-Codes</a>
     </nav>
@@ -549,6 +567,14 @@
       <span class="section-meta" id="plant-count"></span>
     </div>
     <div class="grid" id="plant-grid"></div>
+  </section>
+
+  <section id="seeds" class="section reveal">
+    <div class="section-head">
+      <h2 class="section-title">Samen &amp; Anzucht</h2>
+      <span class="section-meta" id="seed-count"></span>
+    </div>
+    <div class="grid" id="seed-grid"></div>
   </section>
 
   <section id="stats" class="section reveal">
@@ -571,7 +597,10 @@
              autocomplete="off" spellcheck="false"
              value="https://hausblick.github.io/PlantCare/">
     </div>
+    <div class="qr-section-label">Pflegeguides</div>
     <div class="qr-grid" id="qr-grid"></div>
+    <div class="qr-section-label" style="margin-top: var(--space-xl)">Samen-Päckchen</div>
+    <div class="qr-grid" id="seed-qr-grid"></div>
   </section>
 
   <footer>
@@ -637,6 +666,37 @@
     },
   ];
 
+  // ─── Samenliste — hier neue Anzucht-Guides eintragen ─────
+  const SEEDS = [
+    {
+      file:     'seed-cayenne.html',
+      name:     'Cayenne Anzucht',
+      emojis:   ['🌱'],
+      subtitle: 'Rot · mittelscharf · Aussaat Jan–Mär',
+      tag:      'Cayenne Pepper',
+      badge:    '🌱 Anzucht',
+      bg:       'bg-seed-cayenne',
+    },
+    {
+      file:     'seed-serrano.html',
+      name:     'Serrano Anzucht',
+      emojis:   ['🌱'],
+      subtitle: 'Grün · mittelscharf · Aussaat Jan–Feb',
+      tag:      'Serrano Pepper',
+      badge:    '🌱 Anzucht',
+      bg:       'bg-seed-serrano',
+    },
+    {
+      file:     'seed-scotch-bonnet.html',
+      name:     'Scotch Bonnet Anzucht',
+      emojis:   ['🔥'],
+      subtitle: 'Gelb · sehr scharf · Aussaat Dez–Jan',
+      tag:      'Scotch Bonnet / Habanero',
+      badge:    '🔥 Fortgeschritten',
+      bg:       'bg-seed-scotch',
+    },
+  ];
+
   const SUPABASE_URL = 'https://frjmvszuncgbmqgfjcgz.supabase.co';
   const ANON_KEY     = 'sb_publishable_htYoshV2Tb54M3q4XpLn7g_1Ih4Z9QJ';
   const QR_API       = 'https://api.qrserver.com/v1/create-qr-code/';
@@ -698,6 +758,38 @@
           </div>
           <div class="plant-subtitle">${p.subtitle}</div>
           <div class="plant-stats" data-stats-page="${p.file}"></div>
+        </div>
+      `;
+      grid.appendChild(a);
+    });
+  }
+
+  // ─── Section 1b: Samen-Grid ──────────────────────────────
+  function renderSeeds() {
+    const grid = document.getElementById('seed-grid');
+    const countEl = document.getElementById('seed-count');
+    countEl.textContent = SEEDS.length + (SEEDS.length === 1 ? ' Guide' : ' Guides');
+
+    SEEDS.forEach(s => {
+      const a = document.createElement('a');
+      a.className = 'plant-card';
+      a.href = s.file;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.setAttribute('aria-label', s.name + ' öffnen');
+      a.innerHTML = `
+        <div class="plant-photo ${s.bg}">
+          <div class="badge">${s.badge}</div>
+          <div class="scene" aria-hidden="true">${s.emojis[0]}</div>
+          <button class="qr-chip" aria-label="QR-Code anzeigen"
+            onclick="event.preventDefault();event.stopPropagation();scrollToSeedQR('${s.file}')">⬛ QR</button>
+        </div>
+        <div class="plant-meta">
+          <div class="plant-title-row">
+            <span class="plant-title">${s.name}</span>
+            <span class="plant-tag">${s.tag}</span>
+          </div>
+          <div class="plant-subtitle">${s.subtitle}</div>
         </div>
       `;
       grid.appendChild(a);
@@ -921,8 +1013,68 @@
     });
   }
 
+  // ─── Section 3b: Samen QR-Codes ─────────────────────────
+  function renderSeedQR() {
+    const grid = document.getElementById('seed-qr-grid');
+
+    SEEDS.forEach(s => {
+      const item = document.createElement('div');
+      item.className = 'qr-item';
+      item.dataset.file = s.file;
+      item.innerHTML = `
+        <img class="qr-item-img" data-qr
+             src="${qrSrc(s.file, 300)}"
+             alt="QR-Code ${s.name}" width="140" height="140">
+        <div class="qr-item-name">${s.emojis.join('')} ${s.name}</div>
+        <div class="qr-item-sub">${s.tag}</div>
+        <div class="qr-item-url" data-url>${getBase()}/${s.file}</div>
+        <div class="qr-item-btns">
+          <button class="qr-btn primary" data-dl>⬇ PNG</button>
+          <button class="qr-btn"         data-cp>⧉ URL</button>
+        </div>
+      `;
+
+      item.querySelector('[data-dl]').addEventListener('click', () => {
+        const a = document.createElement('a');
+        a.href     = qrSrc(s.file, 1024);
+        a.download = 'qr-' + s.file.replace('.html', '') + '.png';
+        a.target   = '_blank';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        showToast('PNG geladen');
+      });
+
+      item.querySelector('[data-cp]').addEventListener('click', async () => {
+        const url = getBase() + '/' + s.file;
+        try { await navigator.clipboard.writeText(url); }
+        catch {
+          const ta = document.createElement('textarea');
+          ta.value = url;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          ta.remove();
+        }
+        showToast('URL kopiert');
+      });
+
+      grid.appendChild(item);
+    });
+  }
+
   // ─── Scroll to QR + kurz highlighten ─────────────────────
   function scrollToQR(file) {
+    document.getElementById('qr').scrollIntoView({ behavior: 'smooth' });
+    document.querySelectorAll('.qr-item').forEach(el => {
+      el.classList.toggle('highlighted', el.dataset.file === file);
+    });
+    setTimeout(() => {
+      document.querySelectorAll('.qr-item.highlighted').forEach(el => el.classList.remove('highlighted'));
+    }, 2200);
+  }
+
+  function scrollToSeedQR(file) {
     document.getElementById('qr').scrollIntoView({ behavior: 'smooth' });
     document.querySelectorAll('.qr-item').forEach(el => {
       el.classList.toggle('highlighted', el.dataset.file === file);
@@ -946,8 +1098,10 @@
 
   // ─── Init ─────────────────────────────────────────────────
   renderPlants();
+  renderSeeds();
   renderStatCards();
   renderQR();
+  renderSeedQR();
   loadStats();
 </script>
 
